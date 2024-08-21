@@ -24,6 +24,10 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 public:
+	UFUNCTION(BlueprintCallable, Category="Visibility")
+	void HideObj();
+	
+public:
 	UPROPERTY(BlueprintReadWrite, Category="Interaction")
 	bool Interactable;
 };

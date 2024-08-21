@@ -25,3 +25,7 @@ void AReliveActor::Tick(float DeltaTime)
 
 }
 
+void AReliveActor::HideObj()
+{
+}
+
