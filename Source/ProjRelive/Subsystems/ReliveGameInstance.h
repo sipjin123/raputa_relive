@@ -13,6 +13,10 @@ UCLASS()
 class PROJRELIVE_API UReliveGameInstance : public UGameInstance
 {
 	GENERATED_BODY()
+
+public:
+	UPROPERTY(BlueprintReadWrite)
+	int PlayerCount;
 	
 	UFUNCTION(BlueprintCallable)
 	void TestFunc();

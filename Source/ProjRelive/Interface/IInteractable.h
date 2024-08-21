@@ -2,6 +2,7 @@
 
 #pragma once
 #include "CoreMinimal.h"
+#include "ProjRelive/Core/ReliveActor.h"
 #include "UObject/Interface.h"
 #include "IInteractable.generated.h"
 
@@ -20,8 +21,11 @@ public:
 	void OnInteract();
 	
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Interaction")
-	void OnInteractByActor(const AActor* ActorRef);
+	void OnInteractByActor(const AReliveActor* RActorRef);
 
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category="Interaction")
+	bool IsInteractable();
+	
 	UFUNCTION()
 	virtual void ProcessInteractPure();
 	
