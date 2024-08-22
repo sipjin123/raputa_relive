@@ -19,6 +19,12 @@ class PROJRELIVE_API IIInteractable
 public:
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Interaction")
 	void OnInteract();
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Interaction")
+	void EndInteract();
+	
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Interaction")
+	void EndInteractActor(const AReliveActor* ActorRef);
 	
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Interaction")
 	void OnInteractByActor(const AReliveActor* RActorRef);
@@ -30,5 +36,5 @@ public:
 	virtual void ProcessInteractPure();
 	
 	UFUNCTION()
-	virtual void ProcessInteractByActorPure(const AActor* ActorRef);
+	virtual void ProcessInteractByActorPure(const AReliveActor* ActorRef);
 };

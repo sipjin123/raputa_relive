@@ -9,6 +9,6 @@ void IIInteractable::ProcessInteractPure()
 {
 }
 
-void IIInteractable::ProcessInteractByActorPure(const AActor* ActorRef)
+void IIInteractable::ProcessInteractByActorPure(const AReliveActor* ActorRef)
 {
 }
