@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "Logging/LogMacros.h"
+//#include "Player/RelivePlayerController.h"
 #include "ProjReliveCharacter.generated.h"
 
 class USpringArmComponent;
@@ -13,6 +14,7 @@ class UInputMappingContext;
 class UInputAction;
 struct FInputActionValue;
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnLookAtComplete);
 DECLARE_LOG_CATEGORY_EXTERN(LogTemplateCharacter, Log, All);
 
 UCLASS(config=Game)
@@ -47,7 +49,8 @@ class AProjReliveCharacter : public ACharacter
 public:
 	AProjReliveCharacter();
 	
-
+	UPROPERTY(BlueprintAssignable, BlueprintCallable, BlueprintReadWrite)
+	FOnLookAtComplete OnLookAtComplete;
 protected:
 
 	/** Called for movement input */
@@ -55,7 +58,6 @@ protected:
 
 	/** Called for looking input */
 	void Look(const FInputActionValue& Value);
-			
 
 protected:
 	// APawn interface
@@ -69,5 +71,23 @@ public:
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 	/** Returns FollowCamera subobject **/
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
+
+public:
+	UPROPERTY(BlueprintReadWrite, Category="Controls")
+	bool FreezeInput;
+	UPROPERTY(BlueprintReadWrite, Category="Rotation")
+	bool ShouldLookAtTarget;
+	UPROPERTY(BlueprintReadWrite, Category="Rotation")
+	float LookAtLerp = 0;
+	UPROPERTY(BlueprintReadWrite, Category="Rotation")
+	float LookAtSpeed = 3;
+	UPROPERTY(BlueprintReadWrite, Category="Rotation")
+	float LookAtTimer = 0;
+	UPROPERTY(BlueprintReadWrite, Category="Rotation")
+	FRotator InitialRotation;
+	
+	
+	UPROPERTY(BlueprintReadWrite, Category="Reference")
+	FVector TargetClickedLocation;
 };
 
