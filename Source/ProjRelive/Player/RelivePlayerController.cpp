@@ -11,7 +11,7 @@ void ARelivePlayerController::BeginPlay()
 	UE_LOG(LogTemp, Log, TEXT("CONTROLLER BEGIN PLAY"));
 	if (ReliveCharacter == nullptr)
 	{
-		ReliveCharacter = Cast<AProjReliveCharacter>(GetPawn());
+		ReliveCharacter = Cast<AActor>(GetPawn());
 		//ReliveCharacter.RelivePlayerController = this;
 		if (ReliveCharacter == nullptr)
 		{

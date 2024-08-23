@@ -23,11 +23,14 @@ public:
 	ARelivePlayerController();
 	
 	UPROPERTY(BlueprintReadWrite, Category="References")
-	AProjReliveCharacter* ReliveCharacter;
+	AActor* ReliveCharacter;
 	
 	UPROPERTY(BlueprintReadWrite, Category="References")
-	AReliveActor* CurrentTargetActor;
+	AActor* CurrentTargetActor;
 
-	UPROPERTY(BlueprintReadWrite, Category="Reference")
+	UPROPERTY(BlueprintReadWrite, Category="References")
 	FVector ClickedLocation;
+	
+	UPROPERTY(BlueprintReadWrite, Category="Stats")
+	float ZoomSpeed = 3.f;;
 };
