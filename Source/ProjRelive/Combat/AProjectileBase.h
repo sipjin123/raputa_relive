@@ -31,12 +31,18 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Stats")
 	float Damage;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Stats")
+	float Speed = 100.0f;
+
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Stats", meta = (ExposeOnSpawn = "true"))
 	float Velocity;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Stats")
 	float TargetAreaRadius = 120.f;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Stats")
+	float Lifetime = 5.0f;
+	
 	UPROPERTY(BlueprintReadWrite, Category = "Spawnable")
 	AReliveActor* SpawnedTargetIndicator;
 };

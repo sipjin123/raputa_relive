@@ -13,7 +13,7 @@ public:
 	UQuestBase();
 public:
 	UPROPERTY(VisibleAnywhere, Category="Item Data")
-	int32 Id;
+	int32 QuestId;
 	UPROPERTY(VisibleAnywhere, Category="Item Data", meta=(UIMin=1, UIMax=100))
 	int32 Quantity;
 

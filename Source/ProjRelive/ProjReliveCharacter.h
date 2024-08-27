@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Enums/EPlayerStats.h"
 #include "GameFramework/Character.h"
 #include "Logging/LogMacros.h"
 //#include "Player/RelivePlayerController.h"
@@ -90,6 +91,8 @@ public:
 	UPROPERTY(BlueprintReadWrite, Category="Rotation")
 	FRotator InitialRotation;
 	
+	UPROPERTY(BlueprintReadWrite, Category="Rotation")
+	bool IsDead;
 	
 	UPROPERTY(BlueprintReadWrite, Category="Reference")
 	FVector TargetClickedLocation;
