@@ -2,7 +2,7 @@
 
 
 #include "ReliveUtilityBFL.h"
-
+#include "GameplayTagsManager.h"
 #include "Kismet/GameplayStatics.h"
 
 UReliveGameInstance* UReliveUtilityBFL::ReliveGameInstance(UObject* WorldContextObject)
@@ -15,4 +15,14 @@ UReliveGameInstance* UReliveUtilityBFL::ReliveGameInstance(UObject* WorldContext
 		return  GI;
 	}
 	return nullptr;
+}
+
+TArray<FGameplayTag> UReliveUtilityBFL::TagsInContainer(FGameplayTagContainer container)
+{
+	return container.GetGameplayTagArray();
+	/*
+	UGameplayTagsManager::Get().RequestAllGameplayTags(container, false);
+	TArray<FGameplayTag> TagArray;
+	container.GetGameplayTagArray(TagArray);
+	return TagArray;*/
 }

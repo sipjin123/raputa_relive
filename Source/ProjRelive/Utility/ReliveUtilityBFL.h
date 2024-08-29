@@ -20,4 +20,7 @@ class PROJRELIVE_API UReliveUtilityBFL : public UBlueprintFunctionLibrary
 	
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "ManagerReference", meta = (WorldContext = WorldContextObject))
 	static UReliveGameInstance* ReliveGameInstance(UObject* WorldContextObject);
+
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Helper", meta = (WorldContext = WorldContextObject))
+	static TArray<FGameplayTag> TagsInContainer(FGameplayTagContainer  container);
 };

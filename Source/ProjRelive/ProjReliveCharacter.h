@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "GameplayTagContainer.h"
 #include "Enums/EPlayerStats.h"
 #include "GameFramework/Character.h"
 #include "Logging/LogMacros.h"
@@ -78,6 +79,9 @@ public:
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
 
 public:
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Stats")
+	FGameplayTagContainer TagContainer;
+	
 	UPROPERTY(BlueprintReadWrite, Category="Controls")
 	bool FreezeInput;
 	UPROPERTY(BlueprintReadWrite, Category="Rotation")
