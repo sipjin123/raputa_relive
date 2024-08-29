@@ -3,6 +3,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "GameFramework/ProjectileMovementComponent.h"
 #include "ProjRelive/Core/ReliveActor.h"
 #include "AProjectileBase.generated.h"
 
@@ -12,7 +13,7 @@ class PROJRELIVE_API AAProjectileBase : public AReliveActor
 	GENERATED_BODY()
 public:
 	// Sets default values for this actor's properties
-	//AAProjectileBase();
+	AAProjectileBase();
 
 	// Sphere collision component.
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Collision")
@@ -42,7 +43,16 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Stats")
 	float Lifetime = 5.0f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Data")
+	FVector SpawnLocation;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Data")
+	FRotator SpawnRotation;
 	
 	UPROPERTY(BlueprintReadWrite, Category = "Spawnable")
 	AReliveActor* SpawnedTargetIndicator;
+protected:
+	// Called when the game starts
+	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaTime) override;
 };
