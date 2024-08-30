@@ -30,4 +30,11 @@ public:
 public:
 	UPROPERTY(BlueprintReadWrite, Category="Interaction")
 	bool Interactable;
+	
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Display")
+	class UStaticMeshComponent* StaticMeshSource;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	class USceneComponent* SceneComponent;
 };

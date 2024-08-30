@@ -9,8 +9,6 @@
 
 AAProjectileBase::AAProjectileBase()
 {
-    SceneComponent = CreateDefaultSubobject<USceneComponent>(TEXT("RootComponent"));
-    RootComponent = SceneComponent;
     if (!ProjectileMovementComponent)
     {
         // Use this component to drive this projectile's movement.

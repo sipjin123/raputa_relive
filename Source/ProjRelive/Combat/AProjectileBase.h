@@ -23,12 +23,6 @@ public:
 	UPROPERTY(BlueprintReadOnly, VisibleAnywhere, meta = (AllowPrivateAccess), Category = "Movement") // Add this to ensure editor visibility in details panel
 		class UProjectileMovementComponent* ProjectileMovementComponent;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Display")
-	class UStaticMeshComponent* StaticMeshSource;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	class USceneComponent* SceneComponent;
-
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Stats")
 	float Damage;
 
