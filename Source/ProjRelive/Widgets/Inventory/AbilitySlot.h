@@ -24,9 +24,6 @@ public:
 	int SlotId = -1;
 	
 	UPROPERTY(BlueprintReadWrite)
-	int SlotAssignment = -1;
-	
-	UPROPERTY(BlueprintReadWrite)
 	FItemData ItemData;
 	
 	UPROPERTY(BlueprintReadWrite)
