@@ -23,7 +23,7 @@ public:
 	// ReSharper disable once CppUEBlueprintImplementableEventNotImplemented
 	void InitEventCalledInBlueprint();
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(BlueprintReadWrite)
 	UDataTable* ItemsDataTable;
 	UPROPERTY(EditAnywhere)
 	FDataTableRowHandle DefaultItemRowHandle;

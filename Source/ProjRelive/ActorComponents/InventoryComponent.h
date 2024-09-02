@@ -52,12 +52,23 @@ public:
 	FOnInventoryClose OnInventoryClose;
 	UPROPERTY(BlueprintAssignable, BlueprintCallable, BlueprintReadWrite)
 	FOnInventoryModified OnInventoryModified;
+
+	UPROPERTY(BlueprintReadWrite)
+	bool IsInventoryOpen;
 	
 	UFUNCTION(BlueprintCallable)
 	void AddItemToInventory(FItemData ItemData);
+	UFUNCTION(BlueprintCallable)
+	void SyncUserItems();
 
 	UPROPERTY(BlueprintReadWrite)
 	TMap<int32, FItemData> UserItems;
 	UPROPERTY(BlueprintReadWrite)
 	TArray<FItemData> UserEquippedAbilities;
+	
+	UFUNCTION(BlueprintCallable, meta=(DisplayName="ConsumeItemById"))
+	void ConsumeItem(int ItemId, int ConsumeAmount);
+
+	UFUNCTION(Blueprintable)
+	void SyncAbilityPanelItems();
 };

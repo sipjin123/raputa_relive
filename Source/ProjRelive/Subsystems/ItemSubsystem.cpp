@@ -3,9 +3,6 @@
 
 #include "ItemSubsystem.h"
 
-#include <string>
-
-
 UItemSubsystem::UItemSubsystem()
 {
 }
@@ -21,27 +18,30 @@ FItemData UItemSubsystem::RequestItemData(FDataTableRowHandle RowHandle)
 	//const FName LocalRowName = "Chicken";
 	//const FItemData* OutRow = ItemsDataTable->FindRow<FItemData>(LocalRowName, "");
 	//return *OutRow;
+	
+	FName LocalRowName = RowHandle.RowName;
+	const FItemData* OutRow = RowHandle.DataTable->FindRow<FItemData>(LocalRowName, "");
+	return *OutRow;
+	/*
 	try
 	{
-		FName LocalRowName = RowHandle.RowName;
-		const FItemData* OutRow = RowHandle.DataTable->FindRow<FItemData>(LocalRowName, "");
-		return *OutRow;
 	}
 	catch (...)
 	{
 		const FName LocalRowName = "Chicken";
 		const FItemData* OutRow = ItemsDataTable->FindRow<FItemData>(LocalRowName, "");
 		return *OutRow;
-	}
+	}*/
 }
 
 FDataTableRowHandle UItemSubsystem::RequestRandomDataHandle()
 {
 	TArray<FName> NewRowNames = ItemsDataTable->GetRowNames();
-	int MaxArray = NewRowNames.Num() - 1 -1; // REMOVE LANDMINE FOR NOW
+	int MaxArray = NewRowNames.Num() - 1;
 
 	if (MaxArray > 0)
 	{
+		//UE_LOG(LogTemp, Log, TEXT("Returning Random Name: %d"), MaxArray);
 		int RandomizedValue = FMath::RandRange(0, MaxArray);
 
 		FDataTableRowHandle NewHandle = FDataTableRowHandle();
@@ -49,8 +49,12 @@ FDataTableRowHandle UItemSubsystem::RequestRandomDataHandle()
 		NewHandle.DataTable = ItemsDataTable;
 		
 		FString RowNameStr = NewHandle.RowName.ToString();
-		UE_LOG(LogTemp, Log, TEXT("Data table content is %s :: %d / %d"), *RowNameStr, RandomizedValue, MaxArray);
+		//UE_LOG(LogTemp, Log, TEXT("Data table content is %s :: %d / %d"), *RowNameStr, RandomizedValue, MaxArray);
 		return NewHandle;
+	}
+	else
+	{
+	UE_LOG(LogTemp, Log, TEXT("FAILED TO RETURN Random Name: %d"), MaxArray);
 	}
 	return DefaultItemRowHandle;
 }

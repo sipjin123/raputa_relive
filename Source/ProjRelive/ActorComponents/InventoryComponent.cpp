@@ -45,16 +45,18 @@ void UInventoryComponent::TickComponent(float DeltaTime, ELevelTick TickType, FA
 
 void UInventoryComponent::CloseInventory()
 {
-	if (IsValid(InventoryPanel))
+	if (IsValid(InventoryPanel) && IsInventoryOpen)
 	{
+		IsInventoryOpen = false;
 		InventoryPanel->RemoveFromParent();
 	}
 }
 
 void UInventoryComponent::OpenInventory()
 {
-	if (IsValid(InventoryPanel))
+	if (IsValid(InventoryPanel) && !IsInventoryOpen)
 	{
+		IsInventoryOpen = true;
 		InventoryPanel->UserItems = UserItems;
 		InventoryPanel->AddToViewport(0);
 	}
@@ -87,8 +89,75 @@ void UInventoryComponent::AddItemToInventory(FItemData ItemData)
 		UserEquippedAbilities.Add(ItemData);
 	}
 
-	
 	PlayerHUD->UserEquippedAbilities = UserEquippedAbilities;
 	OnInventoryModified.Broadcast();
+}
+
+void UInventoryComponent::SyncUserItems()
+{
+	InventoryPanel->UserItems = UserItems;
+}
+
+void UInventoryComponent::ConsumeItem(int ItemId, int ConsumeAmount)
+{
+	if (UserItems.Contains(ItemId))
+	{
+		//UE_LOG(LogTemp, Log, TEXT("Consuming item: {%d}"), ItemId);
+		UserItems[ItemId].Quantity --;
+		if (UserItems[ItemId].Quantity <= 0)
+		{
+			// Remove Inventory Item if fully consumed
+			UserItems.Remove(ItemId);
+
+			// Remove Equipped Item if fully consumed
+			FItemData* FoundEntry = UserEquippedAbilities.FindByPredicate([ItemId](const FItemData& InItem)
+			{
+				return InItem.Id == ItemId;
+			});
+			
+			auto FoundIndex = UserEquippedAbilities.IndexOfByPredicate([ItemId](const FItemData& InItem)
+			{
+				return InItem.Id == ItemId;
+			});
+
+			if (FoundIndex >= 0)
+			{
+				//UE_LOG(LogTemp, Log, TEXT("Removing Item: {%d} -- {%s} -- {%d}"), FoundEntry->Id, *FoundEntry->ItemTextData.Name.ToString(), FoundIndex);
+				UserEquippedAbilities.RemoveAt(FoundIndex);
+			}
+			PlayerHUD->UserEquippedAbilities = UserEquippedAbilities;
+		}
+		SyncAbilityPanelItems();
+	}
+	else
+	{
+		UE_LOG(LogTemp, Log, TEXT("Failed to Consume item: {%d}"), ItemId);
+	}
+	OnInventoryModified.Broadcast();
+}
+
+void UInventoryComponent::SyncAbilityPanelItems()
+{
+	TArray<int> ItemsToRemove;
+	for (int i = 0; i < UserEquippedAbilities.Num(); i++)
+	{
+		int EquippedItemId = UserEquippedAbilities[i].Id;
+		if(UserItems.Contains(EquippedItemId))
+		{
+			UserEquippedAbilities[i].Quantity = UserItems[EquippedItemId].Quantity;
+		}
+		else
+		{
+			ItemsToRemove.Add(i);
+		}
+	}
+	if (ItemsToRemove.Num() > 0)
+	{
+		for (int i = 0; i < ItemsToRemove.Num(); i++)
+		{
+			UserEquippedAbilities.RemoveAt(ItemsToRemove[i]);
+		}
+	}
+	PlayerHUD->UserEquippedAbilities = UserEquippedAbilities;
 }
 
