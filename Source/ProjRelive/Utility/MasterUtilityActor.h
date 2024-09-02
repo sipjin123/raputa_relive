@@ -20,3 +20,9 @@ protected:
 	virtual void BeginPlay() override;
 	
 };
+
+// This allows breaking of variable fetched in blueprint
+//USTRUCT(Blueprintable)
+//struct FItemData
+//BlueprintReadWrite
+//INT Sample 
