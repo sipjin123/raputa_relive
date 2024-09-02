@@ -23,4 +23,14 @@ class PROJRELIVE_API UReliveUtilityBFL : public UBlueprintFunctionLibrary
 
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Helper", meta = (WorldContext = WorldContextObject))
 	static TArray<FGameplayTag> TagsInContainer(FGameplayTagContainer  container);
+
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Helper", meta = (WorldContext = WorldContextObject))
+	static bool IsEditorMode()
+	{
+#if WITH_EDITOR
+		return true;
+#else
+		return false;
+#endif
+	}
 };
