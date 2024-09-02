@@ -4,9 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "ProjRelive/Items/ItemData.h"
 #include "InventoryComponent.generated.h"
 
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnInventoryModified);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnInventoryOpen);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnInventoryClose);
 UCLASS(Blueprintable, BlueprintType, ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
@@ -31,9 +33,31 @@ public:
 	void CloseInventory();
 	UFUNCTION(BlueprintCallable)
 	void OpenInventory();
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	TSubclassOf<UUserWidget> InventoryWidget;
+
+	UPROPERTY(BlueprintReadWrite)
+	class UInventoryPanel* InventoryPanel;
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	TSubclassOf<UUserWidget> PlayerHUDWidget;
+
+	UPROPERTY(BlueprintReadWrite)
+	class UPlayerHUD* PlayerHUD;
 	
 	UPROPERTY(BlueprintAssignable, BlueprintCallable, BlueprintReadWrite)
 	FOnInventoryOpen OnInventoryOpen;
 	UPROPERTY(BlueprintAssignable, BlueprintCallable, BlueprintReadWrite)
 	FOnInventoryClose OnInventoryClose;
+	UPROPERTY(BlueprintAssignable, BlueprintCallable, BlueprintReadWrite)
+	FOnInventoryModified OnInventoryModified;
+	
+	UFUNCTION(BlueprintCallable)
+	void AddItemToInventory(FItemData ItemData);
+
+	UPROPERTY(BlueprintReadWrite)
+	TMap<int32, FItemData> UserItems;
+	UPROPERTY(BlueprintReadWrite)
+	TArray<FItemData> UserEquippedAbilities;
 };

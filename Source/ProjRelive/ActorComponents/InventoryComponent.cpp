@@ -3,6 +3,9 @@
 
 #include "InventoryComponent.h"
 
+#include "ProjRelive/Widgets/Inventory/InventoryPanel.h"
+#include "ProjRelive/Widgets/Inventory/PlayerHUD.h"
+
 // Sets default values for this component's properties
 UInventoryComponent::UInventoryComponent()
 {
@@ -20,7 +23,15 @@ void UInventoryComponent::BeginPlay()
 	Super::BeginPlay();
 
 	// ...
-	
+	if(IsValid(InventoryWidget))
+	{
+		InventoryPanel = CreateWidget<UInventoryPanel>(GetWorld(), InventoryWidget);
+	}
+	if(IsValid(PlayerHUDWidget))
+	{
+		PlayerHUD = CreateWidget<UPlayerHUD>(GetWorld(), PlayerHUDWidget);
+		PlayerHUD->AddToViewport();
+	}
 }
 
 
@@ -34,9 +45,50 @@ void UInventoryComponent::TickComponent(float DeltaTime, ELevelTick TickType, FA
 
 void UInventoryComponent::CloseInventory()
 {
+	if (IsValid(InventoryPanel))
+	{
+		InventoryPanel->RemoveFromParent();
+	}
 }
 
 void UInventoryComponent::OpenInventory()
 {
+	if (IsValid(InventoryPanel))
+	{
+		InventoryPanel->UserItems = UserItems;
+		InventoryPanel->AddToViewport(0);
+	}
+}
+
+void UInventoryComponent::AddItemToInventory(FItemData ItemData)
+{
+	if (UserItems.Contains(ItemData.Id))
+	{
+		// Increment the quantity of Inventory Slots
+		UserItems[ItemData.Id].Quantity += ItemData.Quantity;
+
+		// Increment the quantity of Ability Slots
+		for(int i = 0 ; i < UserEquippedAbilities.Num() ; i ++)
+		{
+			if(ItemData.Id == UserEquippedAbilities[i].Id)
+			{
+				UserEquippedAbilities[i].Quantity = UserItems[ItemData.Id].Quantity;
+			}
+		}
+	}
+	else
+	{
+		UserItems.Add(ItemData.Id, ItemData);
+		UserEquippedAbilities.Add(ItemData);
+	}
+
+	if (UserEquippedAbilities.Num() <= 0)
+	{
+		UserEquippedAbilities.Add(ItemData);
+	}
+
+	
+	PlayerHUD->UserEquippedAbilities = UserEquippedAbilities;
+	OnInventoryModified.Broadcast();
 }
 
