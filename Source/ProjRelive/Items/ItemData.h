@@ -1,116 +1,96 @@
 #pragma once
 #include "CoreMinimal.h"
+#include "ItemAttachment.h"
 #include "Engine/DataTable.h"
+#include "ProjRelive/Core/ReliveActor.h"
 #include "ProjRelive/Enums/EPlayerStats.h"
+#include "ProjRelive/Enums/EquipType.h"
+#include "ProjRelive/Enums/PlayerCombatState.h"
 #include "ItemData.generated.h"
 
-UENUM()
-enum class EItemRarity : uint8
-{
-	Common = 0 UMETA(DisplayName = "Common"),
-	Uncommon = 1 UMETA(DisplayName = "Uncommon"),
-	Rare = 2 UMETA(DisplayName = "Rare"),
-	Legendary = 3 UMETA(DisplayName = "Legendary"),
-};
-
-UENUM()
-enum class EItemEquipSlot : uint8
-{
-	None = 0 UMETA(DisplayName = "None"),
-	RightHand = 1 UMETA(DisplayName = "RightHand"),
-	LeftHand = 2 UMETA(DisplayName = "LeftHand"),
-	Back = 3 UMETA(DisplayName = "Back"),
-	Front = 4 UMETA(DisplayName = "Front"),
-	Head = 5 UMETA(DisplayName = "Head"),
-	Mount = 6 UMETA(DisplayName = "Mount"),
-	Orbit = 7 UMETA(DisplayName = "Orbit"),
-};
-
-UENUM()
-enum class EItemType : uint8
-{
-	Invalid = 0 UMETA(DisplayName = "Invalid"),
-	Offensive = 1 UMETA(DisplayName = "Offensive"),
-	Defensive = 2 UMETA(DisplayName = "Defensive"),
-	Special = 3 UMETA(DisplayName = "Special"),
-};
-
-USTRUCT()
+USTRUCT(Blueprintable)
 struct FItemStats
 {
 	GENERATED_BODY()
 
-	UPROPERTY(EditAnywhere, Category="Stats")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Stats")
 	int32 Quantity = 0;
-	UPROPERTY(EditAnywhere, Category="Stats")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Stats")
 	float Duration = 0;
-	UPROPERTY(EditAnywhere, Category="Stats")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Stats")
 	float Cooldown = 0;
-	UPROPERTY(EditAnywhere, Category="Stats")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Stats")
 	float Lifetime = 0;
-	UPROPERTY(EditAnywhere, Category="Stats")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Stats")
 	EBuffs BuffApplied = EBuffs::None;
-	UPROPERTY(EditAnywhere, Category="Stats")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Stats")
 	EDebuffs DebuffApplied = EDebuffs::None;
 };
 
-USTRUCT()
+USTRUCT(Blueprintable)
 struct FItemAssetData
 {
 	GENERATED_BODY()
 	
-	UPROPERTY(EditAnywhere, Category="Asset")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Asset")
 	UTexture2D* Icon;
 	UPROPERTY(EditAnywhere, Category="Asset")
 	UStaticMesh* Mesh;
 };
 
-USTRUCT()
+USTRUCT(Blueprintable)
 struct FItemStorageInfo
 {
 	GENERATED_BODY()
 	
-	UPROPERTY(EditAnywhere, Category="Storage")
-	bool IsStackable;
-	UPROPERTY(EditAnywhere, Category="Storage")
-	int32 MaxStackSize;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Storage")
+	bool IsStackable = false;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Storage")
+	int32 MaxStackSize = 100;
 };
 
-USTRUCT()
+USTRUCT(Blueprintable)
 struct FItemTextData
 {
 	GENERATED_BODY()
 	
-	UPROPERTY(EditAnywhere, Category="Text")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Text")
 	FText Name;
-	UPROPERTY(EditAnywhere, Category="Text")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Text")
 	FText Description;
-	UPROPERTY(EditAnywhere, Category="Text")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Text")
 	FText InteractionText;
-	UPROPERTY(EditAnywhere, Category="Text")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Text")
 	FText UsageText;
 };
 
-USTRUCT()
+USTRUCT(Blueprintable)
 struct FItemData : public FTableRowBase
 {
 	GENERATED_BODY()
-
-	UPROPERTY(VisibleAnywhere, Category="Item Data")
-	int32 Id;
-	UPROPERTY(EditAnywhere, Category="Item Data", meta=(UIMin=1, UIMax=100))
-	int32 Quantity;
-
+	
 	UPROPERTY(EditAnywhere, Category="Item Data")
-	EItemRarity ItemRarity;
-	UPROPERTY(VisibleAnywhere, Category="Item Data")
+	int32 Id = -1;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Item Data", meta=(UIMin=1, UIMax=100))
+	int32 Quantity = 0;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Item Data")
+	EPowerupType PowerupType = EPowerupType::None;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Item Data")
+	EItemRarity ItemRarity = EItemRarity::Common;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Item Data")
 	FItemTextData ItemTextData;
-	UPROPERTY(EditAnywhere, Category="Item Data")
-	EItemType ItemType;
-	UPROPERTY(VisibleAnywhere, Category="Item Data")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Item Data")
+	EItemType ItemType = EItemType::Invalid;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Item Data")
 	FItemStats ItemStats;
-	UPROPERTY(VisibleAnywhere, Category="Item Data")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly,Category="Item Data")
 	FItemAssetData ItemAssetData;
-	UPROPERTY(VisibleAnywhere, Category="Item Data")
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite,Category="Item Data")
 	FItemStorageInfo ItemStorageInfo;
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	TSoftClassPtr<AReliveActor> ActorClass;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	TSoftClassPtr<AItemAttachment> ItemAttachmentClass;
 };

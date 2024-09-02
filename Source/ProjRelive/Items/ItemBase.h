@@ -29,6 +29,9 @@ public:
 	UPROPERTY(BlueprintReadWrite, Category="Data")
 	FItemData ItemData;
 
+	UPROPERTY(BlueprintReadWrite, Category="Data")
+	FDataTableRowHandle ItemRowHandle;
+	
 	UPROPERTY(BlueprintReadWrite)
 	bool IsPickup;
 	UPROPERTY(BlueprintReadWrite)
@@ -36,4 +39,14 @@ public:
 	
 	UPROPERTY(BlueprintReadWrite, Category="Item Data")
 	UActorComponent* OwningInventory;
+	
+	// Sphere collision component.
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Collision")
+	class USphereComponent* CollisionSphere;
+
+	UFUNCTION()
+	void OnComponentOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
+	UFUNCTION()
+	void OnComponentEndOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 };

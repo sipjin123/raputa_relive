@@ -3,10 +3,12 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "ItemData.h"
 #include "GameFramework/Actor.h"
 #include "ProjRelive/Core/ReliveActor.h"
 #include "Chest.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FSpawnChestItem);
 UCLASS()
 class PROJRELIVE_API AChest : public AReliveActor
 {
@@ -25,4 +27,21 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 public:
+
+	UPROPERTY(BlueprintReadWrite)
+	bool IsRandom = false;
+
+	UPROPERTY(BlueprintReadWrite)
+	FDataTableRowHandle ItemDataHandle;
+
+	UPROPERTY(BlueprintReadWrite)
+	FItemData ItemDataCache;
+	
+	UPROPERTY(BlueprintReadWrite, BlueprintAssignable, BlueprintCallable)
+	FSpawnChestItem SpawnChestItem;
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	void SpawnChestItemEvent();
+
+	UPROPERTY(BlueprintReadWrite)
+	AActor* PlayerTarget;
 };
