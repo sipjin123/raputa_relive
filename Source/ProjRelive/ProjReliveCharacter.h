@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameplayTagContainer.h"
 #include "Enums/EPlayerStats.h"
+#include "Enums/PlayerCombatState.h"
 #include "GameFramework/Character.h"
 #include "Logging/LogMacros.h"
 //#include "Player/RelivePlayerController.h"
@@ -81,6 +82,11 @@ public:
 public:
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Stats")
 	FGameplayTagContainer TagContainer;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Stats")
+	EPowerupType CurrentPowerup;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Stats")
+	int CurrentAbilityId;
 	
 	UPROPERTY(BlueprintReadWrite, Category="Controls")
 	bool FreezeInput;
