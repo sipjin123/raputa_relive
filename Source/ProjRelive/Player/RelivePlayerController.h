@@ -11,6 +11,8 @@
 /**
  * 
  */
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnPossessAcknowledge);
+
 UCLASS()
 class PROJRELIVE_API ARelivePlayerController : public APlayerController
 {
@@ -32,5 +34,10 @@ public:
 	FVector ClickedLocation;
 	
 	UPROPERTY(BlueprintReadWrite, Category="Stats")
-	float ZoomSpeed = 3.f;;
+	float ZoomSpeed = 3.f;
+
+	UPROPERTY(BlueprintAssignable,BlueprintCallable)
+	FOnPossessAcknowledge OnPossessAcknowledge;
+protected:
+	virtual void AcknowledgePossession(APawn* P) override;
 };

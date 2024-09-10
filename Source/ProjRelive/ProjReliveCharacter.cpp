@@ -72,6 +72,10 @@ void AProjReliveCharacter::BeginPlay()
 	}
 }
 
+void AProjReliveCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+}
 //////////////////////////////////////////////////////////////////////////
 // Input
 

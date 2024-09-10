@@ -20,7 +20,8 @@ struct FInputActionValue;
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnLookAtComplete);
 DECLARE_LOG_CATEGORY_EXTERN(LogTemplateCharacter, Log, All);
 
-UCLASS(config=Game)
+UCLASS()
+//UCLASS(config=Game)
 class AProjReliveCharacter : public ACharacter
 {
 	GENERATED_BODY()
@@ -101,10 +102,12 @@ public:
 	UPROPERTY(BlueprintReadWrite, Category="Rotation")
 	FRotator InitialRotation;
 	
-	UPROPERTY(BlueprintReadWrite, Category="Rotation")
+	UPROPERTY(Replicated, BlueprintReadWrite, Category="Rotation")
 	bool IsDead;
 	
 	UPROPERTY(BlueprintReadWrite, Category="Reference")
 	FVector TargetClickedLocation;
+	UPROPERTY(Replicated, BlueprintReadWrite, Category="Reference")
+	FVector PlayerTargetLocation;
 };
 

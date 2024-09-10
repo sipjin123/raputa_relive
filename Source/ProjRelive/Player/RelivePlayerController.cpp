@@ -32,3 +32,9 @@ ARelivePlayerController::ARelivePlayerController()
 {
 
 }
+
+void ARelivePlayerController::AcknowledgePossession(APawn* P)
+{
+	Super::AcknowledgePossession(P);
+	OnPossessAcknowledge.Broadcast();
+}
