@@ -8,7 +8,6 @@ void ARelivePlayerController::BeginPlay()
 	Super::BeginPlay();
 
 
-	UE_LOG(LogTemp, Log, TEXT("CONTROLLER BEGIN PLAY"));
 	if (ReliveCharacter == nullptr)
 	{
 		ReliveCharacter = Cast<AActor>(GetPawn());
@@ -16,10 +15,6 @@ void ARelivePlayerController::BeginPlay()
 		if (ReliveCharacter == nullptr)
 		{
 			UE_LOG(LogTemp, Log, TEXT("Player Cache FAILED!"));
-		}
-		else
-		{
-			UE_LOG(LogTemp, Log, TEXT("Player Cache Assigned!"));
 		}
 	}
 	else
