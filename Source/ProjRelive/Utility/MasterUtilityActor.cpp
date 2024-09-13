@@ -6,6 +6,9 @@
 AMasterUtilityActor::AMasterUtilityActor()
 {
 	UE_LOG(LogTemp, Log, TEXT("INITIALIZED INSTANCE SUBSYSTEM C++"));
+
+	/// GetOwner()->FindComponentByClass<UPlayerModifierComponent>();
+
 }
 
 void AMasterUtilityActor::BeginPlay()
