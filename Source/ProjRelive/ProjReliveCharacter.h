@@ -4,11 +4,13 @@
 
 #include "CoreMinimal.h"
 #include "GameplayTagContainer.h"
+#include "AbilitySystemInterface.h"
+
 #include "Enums/EPlayerStats.h"
 #include "Enums/PlayerCombatState.h"
+
 #include "GameFramework/Character.h"
 #include "Logging/LogMacros.h"
-//#include "Player/RelivePlayerController.h"
 #include "ProjReliveCharacter.generated.h"
 
 class USpringArmComponent;
@@ -22,7 +24,7 @@ DECLARE_LOG_CATEGORY_EXTERN(LogTemplateCharacter, Log, All);
 
 UCLASS()
 //UCLASS(config=Game)
-class AProjReliveCharacter : public ACharacter
+class AProjReliveCharacter : public ACharacter, public IAbilitySystemInterface
 {
 	GENERATED_BODY()
 
@@ -59,6 +61,21 @@ public:
 	
 	UPROPERTY(BlueprintAssignable, BlueprintCallable, BlueprintReadWrite)
 	FOnLookAtComplete OnLookAtComplete;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Components")
+	class UPlayerModifierComponent* PlayerModifierComponent;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Components")
+	class UMorphComponent* MorphComponent;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "GAS", meta = (AllowPrivateAccess = "true"))
+	class UAbilitySystemComponent* AbilitySystemComponent;
+
+	virtual class UAbilitySystemComponent* GetAbilitySystemComponent() const override
+	{
+		return  AbilitySystemComponent;
+	}
+
 protected:
 
 	/** Called for movement input */

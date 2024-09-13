@@ -2,13 +2,20 @@
 
 #include "ProjReliveCharacter.h"
 #include "Engine/LocalPlayer.h"
+
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
+
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "GameFramework/Controller.h"
+
+#include "ActorComponents/MorphComponent.h"
+#include "ActorComponents/PlayerModifierComponent.h"
+
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include "AbilitySystemComponent.h"
 #include "InputActionValue.h"
 
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
@@ -55,12 +62,23 @@ AProjReliveCharacter::AProjReliveCharacter()
 
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named ThirdPersonCharacter (to avoid direct content references in C++)
+
+	AbilitySystemComponent = CreateDefaultSubobject<UAbilitySystemComponent>(TEXT("AbilitySystemComponent"));
+	AbilitySystemComponent->SetIsReplicated(true);
 }
 
 void AProjReliveCharacter::BeginPlay()
 {
 	// Call the base class  
 	Super::BeginPlay();
+
+	if (GetOwner())
+	{
+		// Assign on Blueprint to reference its Blueprint Counterpart
+		MorphComponent = GetOwner()->FindComponentByClass<UMorphComponent>();
+		PlayerModifierComponent = GetOwner()->FindComponentByClass<UPlayerModifierComponent>();
+		UE_LOG(LogTemp, Warning, TEXT("Components Finished setting up"));
+	}
 
 	//Add Input Mapping Context
 	if (APlayerController* PlayerController = Cast<APlayerController>(Controller))
