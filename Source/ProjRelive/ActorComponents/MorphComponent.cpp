@@ -2,6 +2,7 @@
 
 
 #include "MorphComponent.h"
+#include "GameFramework/Character.h"
 
 // Sets default values for this component's properties
 UMorphComponent::UMorphComponent()
@@ -18,8 +19,15 @@ UMorphComponent::UMorphComponent()
 void UMorphComponent::BeginPlay()
 {
 	Super::BeginPlay();
-
-	// ...
+	if (GetOwner()) {
+		ACharacter* CharRef = Cast<ACharacter>(GetOwner());
+		if (CharRef != nullptr) {
+			UE_LOG(LogTemp, Log, TEXT("Morph Comp Begin DATA SETUP"));
+			SkeletalMeshRef = CharRef->GetMesh();
+			//SkeletalMeshRef->SetVisibility(false);
+		}
+	}
+	UE_LOG(LogTemp, Log, TEXT("Morph Comp Begin"));
 }
 
 
@@ -29,5 +37,27 @@ void UMorphComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActor
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
 	// ...
+}
+
+void UMorphComponent::ApplyMorphEffect()
+{
+
+	ACharacter* CharRef = Cast<ACharacter>(GetOwner());
+	if (CharRef != nullptr) {
+		UE_LOG(LogTemp, Log, TEXT("Morph Comp Begin DATA SETUP"));
+		SkeletalMeshRef = CharRef->GetMesh();
+		SkeletalMeshRef->SetVisibility(false);
+	}
+
+
+
+
+	if (SkeletalMeshRef != nullptr) {
+		UE_LOG(LogTemp, Log, TEXT("Morph Me Now"));
+	}
+	else {
+
+		UE_LOG(LogTemp, Log, TEXT("Failed to Morph"));
+	}
 }
 
