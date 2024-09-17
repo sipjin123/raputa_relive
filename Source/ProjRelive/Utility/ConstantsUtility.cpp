@@ -3,10 +3,3 @@
 
 #include "ConstantsUtility.h"
 
-ConstantsUtility::ConstantsUtility()
-{
-}
-
-ConstantsUtility::~ConstantsUtility()
-{
-}
