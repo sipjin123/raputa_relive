@@ -16,3 +16,10 @@ enum class EBuffs : uint8 {
 	Invulnerable = 3 UMETA(DisplayName = "Invulnerable"),
 	Invisible = 4 UMETA(DisplayName = "Invisible"),
 };
+
+UENUM(BlueprintType)
+enum class EResizeState : uint8 {
+	None = 0 UMETA(DisplayName = "None"),
+	Shrinking = 1 UMETA(DisplayName = "Shrinking"),
+	Enlarging = 2 UMETA(DisplayName = "Enlarging")
+};

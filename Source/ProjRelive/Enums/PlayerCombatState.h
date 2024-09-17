@@ -7,5 +7,8 @@ enum class EPowerupType : uint8 {
 	Speed = 2 UMETA(DisplayName = "Speedup"),
 	Shield = 3 UMETA(DisplayName = "Shield"),
 	BaseballBat = 4 UMETA(DisplayName = "BaseballBat"),
-	Landmine = 5 UMETA(DisplayName = "Landmine"),
+	Landmine = 5 UMETA(DisplayName = "Landmine"),   
+	_COUNT,
+	begin = 0,
+	end = _COUNT,
 };
