@@ -87,7 +87,9 @@ protected:
 protected:
 	// APawn interface
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-	
+
+	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+
 	// To add mapping context
 	virtual void BeginPlay();
 
@@ -101,11 +103,13 @@ public:
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Stats")
 	FGameplayTagContainer TagContainer;
 
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Stats")
+	UPROPERTY(BlueprintReadWrite, Replicated, Category="Stats")
 	EPowerupType CurrentPowerup;
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Stats")
-	int CurrentAbilityId;
-	
+	UPROPERTY(BlueprintReadWrite, Replicated, Category = "Stats")
+	int PowerupQuantity;
+	UPROPERTY(BlueprintReadWrite, Replicated, Category = "Stats")
+	bool IsUsingAbility;
+
 	UPROPERTY(BlueprintReadWrite, Category="Controls")
 	bool FreezeInput;
 	UPROPERTY(BlueprintReadWrite, Category="Rotation")

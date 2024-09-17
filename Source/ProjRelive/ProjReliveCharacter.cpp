@@ -17,6 +17,7 @@
 #include "EnhancedInputSubsystems.h"
 #include "AbilitySystemComponent.h"
 #include "InputActionValue.h"
+#include "Net/UnrealNetwork.h"
 
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
 
@@ -90,10 +91,6 @@ void AProjReliveCharacter::BeginPlay()
 	}
 }
 
-void AProjReliveCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
-{
-	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
-}
 //////////////////////////////////////////////////////////////////////////
 // Input
 
@@ -116,6 +113,17 @@ void AProjReliveCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInpu
 	{
 		UE_LOG(LogTemplateCharacter, Error, TEXT("'%s' Failed to find an Enhanced Input component! This template is built to use the Enhanced Input system. If you intend to use the legacy system, then you will need to update this C++ file."), *GetNameSafe(this));
 	}
+}
+
+void AProjReliveCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+	
+	DOREPLIFETIME(AProjReliveCharacter, PowerupQuantity);
+	DOREPLIFETIME(AProjReliveCharacter, CurrentPowerup);
+	DOREPLIFETIME(AProjReliveCharacter, PlayerTargetLocation);
+	DOREPLIFETIME(AProjReliveCharacter, IsDead);
+	DOREPLIFETIME(AProjReliveCharacter, IsUsingAbility);
 }
 
 void AProjReliveCharacter::Move(const FInputActionValue& Value)
