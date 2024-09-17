@@ -19,6 +19,4 @@ protected:
 	virtual void NativeConstruct() override;
 
 public:
-	UPROPERTY(BlueprintReadWrite)
-	TMap<int32, FItemData> UserItems;
 };

@@ -7,7 +7,7 @@ USTRUCT(Blueprintable)
 struct FItemData : public FTableRowBase
 {
 	GENERATED_BODY()
-	
+
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Item Data")
 	int32 Id = -1;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Item Data", meta=(UIMin=1, UIMax=100))
@@ -16,11 +16,11 @@ struct FItemData : public FTableRowBase
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Item Data")
 	EPowerupType PowerupType;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Item Data")
-	EItemRarity ItemRarity;// = EItemRarity::Common;
+	EItemRarity ItemRarity;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Item Data")
 	FItemTextData ItemTextData;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Item Data")
-	EItemType ItemType;// = EItemType::Invalid;
+	EItemType ItemType;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Item Data")
 	FItemStats ItemStats;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly,Category="Item Data")

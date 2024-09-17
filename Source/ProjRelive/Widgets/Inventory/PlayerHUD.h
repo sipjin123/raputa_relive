@@ -21,15 +21,10 @@ protected:
 
 public:
 	UPROPERTY(BlueprintReadWrite)
-	int CurrentSlot = -1;
-	
-	UPROPERTY(BlueprintReadWrite)
 	UHorizontalBox* AbilityParent;
 	
 	UPROPERTY(BlueprintReadWrite)
 	TArray<UAbilitySlot*> AbilitySlots;
-	UPROPERTY(BlueprintReadWrite)
-	TArray<FItemData> UserEquippedAbilities;
 	
 	UPROPERTY(BlueprintReadWrite)
 	UInventoryComponent* InventoryComponentRef;
