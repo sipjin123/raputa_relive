@@ -5,9 +5,11 @@
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
 #include "ProjRelive/Items/ItemData.h"
+#include <ProjRelive/Structs/EquippedAbilities.h>
 #include "InventoryComponent.generated.h"
 
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnInventoryModifiedByServer);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnInventoryModified);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnInventoryOpen);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnInventoryClose);
@@ -23,6 +25,8 @@ public:
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
+
+	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
 public:	
 	// Called every frame
@@ -53,6 +57,9 @@ public:
 	UPROPERTY(BlueprintAssignable, BlueprintCallable, BlueprintReadWrite)
 	FOnInventoryModified OnInventoryModified;
 
+	UPROPERTY(BlueprintAssignable, BlueprintCallable, BlueprintReadWrite)
+	FOnInventoryModifiedByServer OnInventoryModifiedByServer;
+
 	UPROPERTY(BlueprintReadWrite)
 	bool IsInventoryOpen;
 	
@@ -62,13 +69,37 @@ public:
 	void SyncUserItems();
 
 	UPROPERTY(BlueprintReadWrite)
-	TMap<int32, FItemData> UserItems;
-	UPROPERTY(BlueprintReadWrite)
-	TArray<FItemData> UserEquippedAbilities;
-	
+	TMap<EPowerupType, AActor*> EquipmentDisplay;
+
+	UPROPERTY(BlueprintReadWrite, Replicated)
+	TArray<FItemData> UserItems;
+
+	//UPROPERTY(BlueprintReadWrite, Replicated)
+	UPROPERTY(BlueprintReadWrite, ReplicatedUsing = OnRep_SetEquippedUserAbilities)
+	TArray<FEquippedAbilities> EquippedUserAbilities;
+
+	UFUNCTION()
+	virtual void OnRep_SetEquippedUserAbilities();
+
 	UFUNCTION(BlueprintCallable, meta=(DisplayName="ConsumeItemById"))
 	void ConsumeItem(int ItemId, int ConsumeAmount);
 
 	UFUNCTION(Blueprintable)
 	void SyncAbilityPanelItems();
+
+	UPROPERTY(BlueprintReadWrite, Replicated)
+	AItemAttachment* CurrentEquippedItem;
+
+	UPROPERTY(BlueprintReadWrite, Replicated)
+	int CurrentAbilityId;
+	UPROPERTY(BlueprintReadWrite, Replicated)
+	int CurrentSlotSelected;
+
+	UFUNCTION(BlueprintCallable)
+	void ClearCurrentEquippedAbility();
+
+	UFUNCTION(BlueprintCallable, BlueprintPure)
+	FItemData GetUserItemById(int ItemId);
+	UFUNCTION(BlueprintCallable, BlueprintPure)
+	FItemData GetUserItemByType(EPowerupType ItemType);
 };

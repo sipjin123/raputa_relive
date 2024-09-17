@@ -49,9 +49,6 @@ void UMorphComponent::ApplyMorphEffect()
 		SkeletalMeshRef->SetVisibility(false);
 	}
 
-
-
-
 	if (SkeletalMeshRef != nullptr) {
 		UE_LOG(LogTemp, Log, TEXT("Morph Me Now"));
 	}

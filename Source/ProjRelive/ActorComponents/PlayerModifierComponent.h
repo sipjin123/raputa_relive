@@ -32,6 +32,8 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
+	UPROPERTY(Replicated, BlueprintReadWrite, Category = "Stats")
+	float CurrentBuffTimer;
 
 	UPROPERTY(Replicated, BlueprintReadWrite, Category = "Stats")
 	TArray<FBuffState> AppliedBuffs;
