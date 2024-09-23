@@ -40,9 +40,17 @@ public:
 	
 	UFUNCTION(BlueprintCallable)
 	void Enlarge(bool ShouldDestroyOnEnd);
+	UFUNCTION(Server, Reliable, BlueprintCallable)
+	void Server_Enlarge(bool ShouldDestroyOnEnd);
+	UFUNCTION(NetMulticast, Reliable, BlueprintCallable)
+	void NetMulti_Enlarge(bool ShouldDestroyOnEnd);
 
 	UFUNCTION(BlueprintCallable)
 	void Shrink(bool ShouldDestroyOnEnd);
+	UFUNCTION(Server, Reliable, BlueprintCallable)
+	void Server_Shrink(bool ShouldDestroyOnEnd);
+	UFUNCTION(NetMulticast, Reliable, BlueprintCallable)
+	void NetMulti_Shrink(bool ShouldDestroyOnEnd);
 
 	UFUNCTION(BlueprintCallable)
 	void OverrideShrinkSpeed(float NewSpeed);
@@ -70,6 +78,10 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, Replicated, Category = "State")
 	bool DestroyOnEnd;
+	UPROPERTY(BlueprintReadWrite, Replicated, Category = "State")
+	bool HideOnEnd;
+	UPROPERTY(BlueprintReadWrite, Replicated, Category = "State")
+	bool UseMeshOnly;
 
 	UPROPERTY(BlueprintReadWrite, Replicated, Category = "State")
 	FVector OriginScale;

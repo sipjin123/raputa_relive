@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "ResizeComponent.h"
 #include "MorphComponent.generated.h"
 
 
@@ -26,7 +27,18 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void ApplyMorphEffect();
+	UFUNCTION(BlueprintCallable)
+	void ReleaseMorphEffect();
+
+	UPROPERTY(BlueprintReadWrite, Category = "Reference")
+	AActor* SpawnedActorRef;
+
+	UPROPERTY(BlueprintReadWrite, Category = "Reference")
+	UResizeComponent* ResizeComponent;
 
 	UPROPERTY(BlueprintReadWrite, Category="Reference")
 	USkeletalMeshComponent* SkeletalMeshRef;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Reference")
+	TSubclassOf<class AActor> SpawnableMorphObject;
 };

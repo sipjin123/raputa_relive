@@ -32,6 +32,8 @@ void UResizeComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Out
 	DOREPLIFETIME(UResizeComponent, ResizeState);
 	DOREPLIFETIME(UResizeComponent, DestroyOnEnd);
 	DOREPLIFETIME(UResizeComponent, OriginScale);
+	DOREPLIFETIME(UResizeComponent, HideOnEnd);
+	DOREPLIFETIME(UResizeComponent, UseMeshOnly);
 }
 
 
@@ -43,6 +45,16 @@ void UResizeComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActo
 	// ...
 }
 
+void UResizeComponent::Server_Enlarge_Implementation(bool ShouldDestroyOnEnd)
+{
+	NetMulti_Enlarge(ShouldDestroyOnEnd);
+}
+
+void UResizeComponent::NetMulti_Enlarge_Implementation(bool ShouldDestroyOnEnd)
+{
+	Enlarge(ShouldDestroyOnEnd);
+}
+
 void UResizeComponent::Enlarge(bool ShouldDestroyOnEnd)
 {
 	DestroyOnEnd = ShouldDestroyOnEnd;
@@ -50,6 +62,16 @@ void UResizeComponent::Enlarge(bool ShouldDestroyOnEnd)
 	EnlargeLerpVal = 0.f;
 	IsResizing = true;
 	OnEnlarge.Broadcast();
+}
+
+void UResizeComponent::Server_Shrink_Implementation(bool ShouldDestroyOnEnd)
+{
+	NetMulti_Shrink(ShouldDestroyOnEnd);
+}
+
+void UResizeComponent::NetMulti_Shrink_Implementation(bool ShouldDestroyOnEnd)
+{
+	Shrink(ShouldDestroyOnEnd);
 }
 
 void UResizeComponent::Shrink(bool ShouldDestroyOnEnd)

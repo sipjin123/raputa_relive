@@ -49,7 +49,10 @@ public:
 
 	UPROPERTY(BlueprintReadWrite)
 	class UPlayerHUD* PlayerHUD;
-	
+
+	UPROPERTY(BlueprintReadWrite)
+	ACharacter* CharacterRef;
+
 	UPROPERTY(BlueprintAssignable, BlueprintCallable, BlueprintReadWrite)
 	FOnInventoryOpen OnInventoryOpen;
 	UPROPERTY(BlueprintAssignable, BlueprintCallable, BlueprintReadWrite)

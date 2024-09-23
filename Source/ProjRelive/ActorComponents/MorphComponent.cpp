@@ -22,12 +22,10 @@ void UMorphComponent::BeginPlay()
 	if (GetOwner()) {
 		ACharacter* CharRef = Cast<ACharacter>(GetOwner());
 		if (CharRef != nullptr) {
-			UE_LOG(LogTemp, Log, TEXT("Morph Comp Begin DATA SETUP"));
 			SkeletalMeshRef = CharRef->GetMesh();
-			//SkeletalMeshRef->SetVisibility(false);
 		}
+		ResizeComponent = GetOwner()->FindComponentByClass<UResizeComponent>();
 	}
-	UE_LOG(LogTemp, Log, TEXT("Morph Comp Begin"));
 }
 
 
@@ -41,20 +39,27 @@ void UMorphComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActor
 
 void UMorphComponent::ApplyMorphEffect()
 {
-
 	ACharacter* CharRef = Cast<ACharacter>(GetOwner());
 	if (CharRef != nullptr) {
-		UE_LOG(LogTemp, Log, TEXT("Morph Comp Begin DATA SETUP"));
+		//ResizeComponent->Shrink(false);
 		SkeletalMeshRef = CharRef->GetMesh();
 		SkeletalMeshRef->SetVisibility(false);
-	}
 
-	if (SkeletalMeshRef != nullptr) {
-		UE_LOG(LogTemp, Log, TEXT("Morph Me Now"));
+		SpawnedActorRef = GetWorld()->SpawnActor<AActor>(SpawnableMorphObject, CharRef->GetActorTransform());
+		//GetWorld()->SpawnActor<AProjectile>(Location, Rotation, SpawnInfo);
 	}
-	else {
+}
 
-		UE_LOG(LogTemp, Log, TEXT("Failed to Morph"));
+void UMorphComponent::ReleaseMorphEffect()
+{
+	ACharacter* CharRef = Cast<ACharacter>(GetOwner());
+	if (CharRef != nullptr) {
+		if (SpawnedActorRef) {
+			SpawnedActorRef->Destroy();
+		}
+		SkeletalMeshRef = CharRef->GetMesh();
+		SkeletalMeshRef->SetVisibility(true);
+		//ResizeComponent->Enlarge(false);
 	}
 }
 
