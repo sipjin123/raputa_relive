@@ -64,6 +64,7 @@ public:
 		return "";
 	}
 
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Helper2", meta = (WorldContext = WorldContextObject))
 	static EItemEquipSlot GetEquipSlotForPowerup(EPowerupType PowerupType) {
 		switch (PowerupType)
 		{
@@ -81,6 +82,28 @@ public:
 			return EItemEquipSlot::RightHand;
 		default:
 			return EItemEquipSlot::None;
+		}
+	}
+
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Helper2", meta = (WorldContext = WorldContextObject))
+	static FString GetTableRow(EPowerupType PowerupType) {
+		switch (PowerupType)
+		{
+		case EPowerupType::Chicken:
+			return "Chicken";
+		case EPowerupType::Speed:
+			return "Speedup";
+		case EPowerupType::Shield:
+			return "Shield";
+		case EPowerupType::BaseballBat:
+			return "BaseballBat";
+		case EPowerupType::Landmine:
+			return "Landmine";
+		case EPowerupType::Bighead:
+			return "Bighead";
+		case EPowerupType::None:
+		default:			
+			return "None";
 		}
 	}
 };
