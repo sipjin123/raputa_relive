@@ -24,6 +24,9 @@ public:
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Combat")
 	void OnTakeDamage(float damage);
 
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Combat")
+	void OnPlayDeathAnim();
+
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category="Combat")
 	bool IsStunned();
 };
