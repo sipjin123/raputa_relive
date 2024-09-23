@@ -124,11 +124,12 @@ void AProjReliveCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>&
 	DOREPLIFETIME(AProjReliveCharacter, PlayerTargetLocation);
 	DOREPLIFETIME(AProjReliveCharacter, IsDead);
 	DOREPLIFETIME(AProjReliveCharacter, IsUsingAbility);
+	DOREPLIFETIME(AProjReliveCharacter, CanMove);
 }
 
 void AProjReliveCharacter::Move(const FInputActionValue& Value)
 {
-	if (FreezeInput)
+	if (FreezeInput || !CanMove)
 	{
 		return;
 	}

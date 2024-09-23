@@ -125,6 +125,8 @@ public:
 	
 	UPROPERTY(Replicated, BlueprintReadWrite, Category="Rotation")
 	bool IsDead;
+	UPROPERTY(Replicated, BlueprintReadWrite, Category = "Movement")
+	bool CanMove = true;
 	
 	UPROPERTY(BlueprintReadWrite, Category="Reference")
 	FVector TargetClickedLocation;
