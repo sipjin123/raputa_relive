@@ -3,6 +3,7 @@
 
 #include "MorphComponent.h"
 #include "GameFramework/Character.h"
+#include "Net/UnrealNetwork.h"
 
 // Sets default values for this component's properties
 UMorphComponent::UMorphComponent()
@@ -28,6 +29,12 @@ void UMorphComponent::BeginPlay()
 	}
 }
 
+
+void UMorphComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+	DOREPLIFETIME(UMorphComponent, IsMorphed);
+}
 
 // Called every frame
 void UMorphComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)

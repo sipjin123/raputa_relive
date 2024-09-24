@@ -12,6 +12,8 @@
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnBuffApplied, EBuffs, BuffType);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnDebuffApplied, EDebuffs, DebuffType);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnBuffExpired, EBuffs, BuffType);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnDebuffExpired, EDebuffs, DebuffType);
 
 UCLASS(Blueprintable, BlueprintType, ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class PROJRELIVE_API UPlayerModifierComponent : public UActorComponent
@@ -34,6 +36,8 @@ public:
 
 	UPROPERTY(Replicated, BlueprintReadWrite, Category = "Stats")
 	float CurrentBuffTimer;
+	UPROPERTY(Replicated, BlueprintReadWrite, Category = "Stats")
+	float CurrentDebuffTimer;
 
 	UPROPERTY(Replicated, BlueprintReadWrite, Category = "Stats")
 	TArray<FBuffState> AppliedBuffs;
@@ -52,6 +56,8 @@ public:
 
 	UPROPERTY(BlueprintCallable, BlueprintAssignable, Category = "Delegates")
 	FOnBuffApplied OnBuffApplied;
+	UPROPERTY(BlueprintCallable, BlueprintAssignable, Category = "Delegates")
+	FOnBuffExpired OnBuffExpired;
 
 	UFUNCTION(BlueprintCallable)
 	void ProcessBuffEffect(EBuffs BuffToApply);
@@ -68,6 +74,8 @@ public:
 
 	UPROPERTY(BlueprintCallable, BlueprintAssignable, Category = "Delegates")
 	FOnDebuffApplied OnDebuffApplied;
+	UPROPERTY(BlueprintCallable, BlueprintAssignable, Category = "Delegates")
+	FOnDebuffExpired OnDebuffExpired;
 
 	UFUNCTION(BlueprintCallable)
 	void ProcessDebuffEffect(EDebuffs DebuffToApply);

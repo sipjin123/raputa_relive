@@ -21,6 +21,8 @@ protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
+	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+
 public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
@@ -29,6 +31,9 @@ public:
 	void ApplyMorphEffect();
 	UFUNCTION(BlueprintCallable)
 	void ReleaseMorphEffect();
+
+	UPROPERTY(BlueprintReadWrite, Replicated)
+	bool IsMorphed;
 
 	UPROPERTY(BlueprintReadWrite, Category = "Reference")
 	AActor* SpawnedActorRef;

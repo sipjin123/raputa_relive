@@ -8,6 +8,7 @@
 #include "ProjRelive/Enums/EquipType.h"
 #include "ItemAttachment.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FResetItem);
 UCLASS()
 class PROJRELIVE_API AItemAttachment : public AReliveActor
 {
@@ -28,4 +29,7 @@ public:
 public:	
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Item Data")
 	EItemEquipSlot EquipSlotType;
+
+	UPROPERTY(BlueprintReadWrite, BlueprintCallable, BlueprintAssignable)
+	FResetItem ResetItem;
 };

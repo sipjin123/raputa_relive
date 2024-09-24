@@ -32,6 +32,7 @@ void UPlayerModifierComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProper
 	DOREPLIFETIME(UPlayerModifierComponent, AppliedBuffs);
 	DOREPLIFETIME(UPlayerModifierComponent, AppliedDebuffs);
 	DOREPLIFETIME(UPlayerModifierComponent, CurrentBuffTimer);
+	DOREPLIFETIME(UPlayerModifierComponent, CurrentDebuffTimer);
 }
 
 // Called every frame

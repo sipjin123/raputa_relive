@@ -101,6 +101,12 @@ public:
 			return "Landmine";
 		case EPowerupType::Bighead:
 			return "Bighead";
+		case EPowerupType::Teleporter:
+			return "Teleporter";
+		case EPowerupType::Invinsibility:
+			return "Invinsibility";
+		case EPowerupType::Invisibility:
+			return "Invisibility";
 		case EPowerupType::None:
 		default:			
 			return "None";
