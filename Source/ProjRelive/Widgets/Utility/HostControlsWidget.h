@@ -4,16 +4,16 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
-#include "DevCheatWidget.generated.h"
+#include "HostControlsWidget.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class PROJRELIVE_API UDevCheatWidget : public UUserWidget
+class PROJRELIVE_API UHostControlsWidget : public UUserWidget
 {
 	GENERATED_BODY()
-	
+
 protected:
 	virtual void NativeConstruct() override;
 };

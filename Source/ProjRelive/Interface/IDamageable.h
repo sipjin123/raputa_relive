@@ -25,6 +25,9 @@ public:
 	void OnTakeDamage(float damage);
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Combat")
+	void OnTakeDamageByActor(AActor* actor);
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Combat")
 	void OnPlayDeathAnim();
 
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category="Combat")

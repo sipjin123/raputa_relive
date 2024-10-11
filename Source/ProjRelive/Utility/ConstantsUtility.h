@@ -86,6 +86,26 @@ public:
 	}
 
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Helper2", meta = (WorldContext = WorldContextObject))
+	static FString GetUniqueIdStr(FUniqueNetIdRepl NetId) {
+		if (NetId != nullptr) {
+			return NetId->ToString();
+		}
+
+		UE_LOG(LogTemp, Log, TEXT("Net ID Was INVALID! Check this now"));
+		return FString();
+	}
+
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Helper2", meta = (WorldContext = WorldContextObject))
+	static bool IsUniqueNetIdEqual(FUniqueNetIdRepl LeftNetId, FUniqueNetIdRepl RightNetId) {
+		return LeftNetId == RightNetId;
+	}
+
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Helper2", meta = (WorldContext = WorldContextObject))
+	static bool IsUniqueNetIdValid(FUniqueNetIdRepl NetId) {
+		return NetId != nullptr;
+	}
+
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Helper2", meta = (WorldContext = WorldContextObject))
 	static FString GetTableRow(EPowerupType PowerupType) {
 		switch (PowerupType)
 		{

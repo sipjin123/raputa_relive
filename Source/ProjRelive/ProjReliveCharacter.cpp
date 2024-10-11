@@ -9,6 +9,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "GameFramework/Controller.h"
+#include "GameFramework/PlayerState.h"
 
 #include "ActorComponents/MorphComponent.h"
 #include "ActorComponents/PlayerModifierComponent.h"
@@ -68,6 +69,20 @@ AProjReliveCharacter::AProjReliveCharacter()
 	AbilitySystemComponent->SetIsReplicated(true);
 }
 
+void AProjReliveCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+
+	DOREPLIFETIME(AProjReliveCharacter, PowerupQuantity);
+	DOREPLIFETIME(AProjReliveCharacter, CurrentPowerup);
+	DOREPLIFETIME(AProjReliveCharacter, PlayerTargetLocation);
+	DOREPLIFETIME(AProjReliveCharacter, IsDead);
+	DOREPLIFETIME(AProjReliveCharacter, IsUsingAbility);
+	DOREPLIFETIME(AProjReliveCharacter, CanMove);
+	DOREPLIFETIME(AProjReliveCharacter, TeamId);
+	DOREPLIFETIME(AProjReliveCharacter, ShowTeamIndicator);
+}
+
 void AProjReliveCharacter::BeginPlay()
 {
 	// Call the base class  
@@ -89,6 +104,21 @@ void AProjReliveCharacter::BeginPlay()
 			Subsystem->AddMappingContext(DefaultMappingContext, 0);
 		}
 	}
+
+}
+
+void AProjReliveCharacter::OnRep_TeamId()
+{
+	OnTeamChanged.Broadcast();
+}
+
+FUniqueNetIdRepl AProjReliveCharacter::GetPlayerID()
+{
+	if (GetPlayerState()) {
+		auto MyPlayerState = Cast<APlayerState>(GetPlayerState());
+		return GetPlayerState()->UniqueId;
+	}
+	return FUniqueNetIdRepl();
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -113,18 +143,6 @@ void AProjReliveCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInpu
 	{
 		UE_LOG(LogTemplateCharacter, Error, TEXT("'%s' Failed to find an Enhanced Input component! This template is built to use the Enhanced Input system. If you intend to use the legacy system, then you will need to update this C++ file."), *GetNameSafe(this));
 	}
-}
-
-void AProjReliveCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
-{
-	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
-	
-	DOREPLIFETIME(AProjReliveCharacter, PowerupQuantity);
-	DOREPLIFETIME(AProjReliveCharacter, CurrentPowerup);
-	DOREPLIFETIME(AProjReliveCharacter, PlayerTargetLocation);
-	DOREPLIFETIME(AProjReliveCharacter, IsDead);
-	DOREPLIFETIME(AProjReliveCharacter, IsUsingAbility);
-	DOREPLIFETIME(AProjReliveCharacter, CanMove);
 }
 
 void AProjReliveCharacter::Move(const FInputActionValue& Value)

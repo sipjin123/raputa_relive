@@ -29,5 +29,10 @@ public:
 
 	UPROPERTY(BlueprintReadWrite)
 	class UDevCheatWidget* DevCheatWidget;
-	
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	TSubclassOf<UUserWidget> HostWidgetClass;
+
+	UPROPERTY(BlueprintReadWrite)
+	class UHostControlsWidget* HostWidget;
 };

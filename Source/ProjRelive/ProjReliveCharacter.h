@@ -20,6 +20,7 @@ class UInputAction;
 struct FInputActionValue;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnLookAtComplete);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnTeamChanged);
 DECLARE_LOG_CATEGORY_EXTERN(LogTemplateCharacter, Log, All);
 
 UCLASS()
@@ -103,6 +104,18 @@ public:
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Stats")
 	FGameplayTagContainer TagContainer;
 
+	UPROPERTY(BlueprintReadWrite, Replicated, Category = "Stats", ReplicatedUsing = OnRep_TeamId)
+	int TeamId;
+	UFUNCTION()
+	void OnRep_TeamId();
+	UPROPERTY(BlueprintReadWrite, Replicated, Category = "Stats")
+	bool ShowTeamIndicator;
+
+	//UPROPERTY(BlueprintReadWrite, Category = "Stats")
+	//FUniqueNetIdRepl PlayerID;
+	UFUNCTION(BlueprintCallable, BlueprintPure)
+	FUniqueNetIdRepl GetPlayerID();
+
 	UPROPERTY(BlueprintReadWrite, Replicated, Category="Stats")
 	EPowerupType CurrentPowerup;
 	UPROPERTY(BlueprintReadWrite, Replicated, Category = "Stats")
@@ -132,5 +145,8 @@ public:
 	FVector TargetClickedLocation;
 	UPROPERTY(Replicated, BlueprintReadWrite, Category="Reference")
 	FVector PlayerTargetLocation;
+
+	UPROPERTY(BlueprintAssignable, BlueprintCallable)
+	FOnTeamChanged OnTeamChanged;
 };
 

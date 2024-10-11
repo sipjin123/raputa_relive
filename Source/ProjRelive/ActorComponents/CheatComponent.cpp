@@ -27,6 +27,11 @@ void UCheatComponent::BeginPlay()
 	{
 		DevCheatWidget = CreateWidget<UDevCheatWidget>(GetWorld(), DevCheatWidgetClass);
 	}
+
+	if (IsValid(HostWidgetClass))
+	{
+		//HostWidget = CreateWidget<UHostControlsWidget>(GetWorld(), HostWidgetClass);
+	}
 }
 
 
