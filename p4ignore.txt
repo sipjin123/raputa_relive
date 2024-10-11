@@ -1,10 +1,15 @@
-# Ignore all Intermediate and Saved directories
-Intermediate
-Saved
-DerivedDataCache
-Build
-
-*/Intermediate/*
-*/Saved/*
-*/DerivedDataCache/*
-*/Build/*
+# User-specific folders or temporary files that should not be versioned.
+Saved/
+Intermediate/
+Binaries/
+DerivedDataCache/
+FileOpenOrder/
+.git/
+.github/
+obj/
+# Certain file types that should not be versioned.
+*.pdb
+*-Debug.*
+# Visual Studio user settings files that should be ignored.
+.vs/
+*.o
