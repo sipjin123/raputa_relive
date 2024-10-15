@@ -18,6 +18,22 @@ AMasterUtilityActor::AMasterUtilityActor()
 	*/
 	// Enum String
 	// FString EnumAsString = UEnum::GetDisplayValueAsText(myErrorType).ToString();
+
+
+	//const FName LocalRowName = "Chicken";
+	//const FItemData* OutRow = ItemsDataTable->FindRow<FItemData>(LocalRowName, "");
+	//return *OutRow;
+
+	/*
+	try
+	{
+	}
+	catch (...)
+	{
+		const FName LocalRowName = "Chicken";
+		const FItemData* OutRow = ItemsDataTable->FindRow<FItemData>(LocalRowName, "");
+		return *OutRow;
+	}*/
 }
 
 void AMasterUtilityActor::BeginPlay()

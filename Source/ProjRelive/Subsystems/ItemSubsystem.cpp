@@ -15,28 +15,21 @@ void UItemSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 
 FItemData UItemSubsystem::RequestItemData(FDataTableRowHandle RowHandle)
 {
-	//const FName LocalRowName = "Chicken";
-	//const FItemData* OutRow = ItemsDataTable->FindRow<FItemData>(LocalRowName, "");
-	//return *OutRow;
-	
 	FName LocalRowName = RowHandle.RowName;
 	const FItemData* OutRow = RowHandle.DataTable->FindRow<FItemData>(LocalRowName, "");
 	return *OutRow;
-	/*
-	try
-	{
-	}
-	catch (...)
-	{
-		const FName LocalRowName = "Chicken";
-		const FItemData* OutRow = ItemsDataTable->FindRow<FItemData>(LocalRowName, "");
-		return *OutRow;
-	}*/
 }
 
-FDataTableRowHandle UItemSubsystem::RequestRandomDataHandle()
+FTreasureItemData UItemSubsystem::RequestTreasureItemData(FDataTableRowHandle RowHandle)
 {
-	TArray<FName> NewRowNames = ItemsDataTable->GetRowNames();
+	FName LocalRowName = RowHandle.RowName;
+	const FTreasureItemData* OutRow = RowHandle.DataTable->FindRow<FTreasureItemData>(LocalRowName, "");
+	return *OutRow;
+}
+
+FDataTableRowHandle UItemSubsystem::RequestRandomDataHandle(bool isTreasureItem)
+{
+	TArray<FName> NewRowNames = isTreasureItem ? TreasureItemsDataTable->GetRowNames() : ItemsDataTable->GetRowNames();
 	int MaxArray = NewRowNames.Num() - 1;
 
 	if (MaxArray > 0)
@@ -46,7 +39,7 @@ FDataTableRowHandle UItemSubsystem::RequestRandomDataHandle()
 
 		FDataTableRowHandle NewHandle = FDataTableRowHandle();
 		NewHandle.RowName = NewRowNames[RandomizedValue];
-		NewHandle.DataTable = ItemsDataTable;
+		NewHandle.DataTable = isTreasureItem ? TreasureItemsDataTable : ItemsDataTable;
 		
 		FString RowNameStr = NewHandle.RowName.ToString();
 		//UE_LOG(LogTemp, Log, TEXT("Data table content is %s :: %d / %d"), *RowNameStr, RandomizedValue, MaxArray);

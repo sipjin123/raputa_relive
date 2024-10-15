@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "ItemData.h"
+#include <ProjRelive/Structs/TreasureItemData.h>
 #include "GameFramework/Actor.h"
 #include "ProjRelive/Core/ReliveActor.h"
 #include "Chest.generated.h"
@@ -36,7 +37,10 @@ public:
 
 	UPROPERTY(BlueprintReadWrite)
 	FItemData ItemDataCache;
-	
+
+	UPROPERTY(BlueprintReadWrite)
+	FTreasureItemData TreasureItemDataCache;
+
 	UPROPERTY(BlueprintReadWrite, BlueprintAssignable, BlueprintCallable)
 	FSpawnChestItem SpawnChestItem;
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)

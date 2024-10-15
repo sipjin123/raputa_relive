@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "ProjRelive/Items/ItemData.h"
 #include "Subsystems/GameInstanceSubsystem.h"
+#include <ProjRelive/Structs/TreasureItemData.h>
 #include "ItemSubsystem.generated.h"
 
 /**
@@ -25,11 +26,17 @@ public:
 
 	UPROPERTY(BlueprintReadWrite)
 	UDataTable* ItemsDataTable;
+	UPROPERTY(BlueprintReadWrite)
+	UDataTable* TreasureItemsDataTable;
 	UPROPERTY(EditAnywhere)
 	FDataTableRowHandle DefaultItemRowHandle;
 	 
 	UFUNCTION(BlueprintCallable)
 	FItemData RequestItemData(FDataTableRowHandle RowHandle);
+
 	UFUNCTION(BlueprintCallable)
-	FDataTableRowHandle RequestRandomDataHandle();
+	FTreasureItemData RequestTreasureItemData(FDataTableRowHandle RowHandle);
+
+	UFUNCTION(BlueprintCallable)
+	FDataTableRowHandle RequestRandomDataHandle(bool isTreasureItem);
 };

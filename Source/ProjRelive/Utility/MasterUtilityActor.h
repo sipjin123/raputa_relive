@@ -4,11 +4,13 @@
 
 #include "CoreMinimal.h"
 #include "ProjRelive/Core/ReliveActor.h"
+#include <ProjRelive/Items/ItemData.h>
 #include "MasterUtilityActor.generated.h"
 
 /**
  * 
  */
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnDelegateTest);
 UCLASS()
 class PROJRELIVE_API AMasterUtilityActor : public AReliveActor
 {
@@ -31,6 +33,21 @@ protected:
 	// Executed by Server, Sends to All Clients
 	UFUNCTION(NetMulticast, Reliable, BlueprintCallable)
 	void NetMulticast_CallOnAllClient();*/
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	TSubclassOf<UUserWidget> InventoryWidget;
+
+	UPROPERTY(BlueprintReadWrite)
+	class UInventoryPanel* InventoryPanel;
+
+	UPROPERTY(BlueprintAssignable, BlueprintCallable, BlueprintReadWrite)
+	FOnDelegateTest OnDelegateTest;
+
+	UPROPERTY(BlueprintReadWrite)
+	TMap<EPowerupType, AActor*> EquipmentDisplay;
+
+	UPROPERTY(BlueprintReadWrite)
+	TArray<FItemData> UserItems;
 };
 
 // This allows breaking of variable fetched in blueprint

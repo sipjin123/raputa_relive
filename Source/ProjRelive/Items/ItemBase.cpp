@@ -36,11 +36,11 @@ void AItemBase::Tick(float DeltaTime)
 void AItemBase::OnComponentOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	float Distance = FVector::Dist(GetActorLocation(), OtherActor->GetActorLocation());
-	UE_LOG(LogTemp, Warning, TEXT("Overlap Begin with Component: "), Distance);
+	//UE_LOG(LogTemp, Warning, TEXT("Overlap Begin with Component: "), Distance);
 }
 
 void AItemBase::OnComponentEndOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
 	float Distance = FVector::Dist(GetActorLocation(), OtherActor->GetActorLocation());
-	UE_LOG(LogTemp, Warning, TEXT("Overlap END with Component: %f"), Distance);
+	//UE_LOG(LogTemp, Warning, TEXT("Overlap END with Component: %f"), Distance);
 }
