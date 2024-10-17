@@ -15,6 +15,7 @@ void AReliveGameState::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Out
 	DOREPLIFETIME(AReliveGameState, IsSinglePlayer);
 	DOREPLIFETIME(AReliveGameState, CurrentGameMode);
 	DOREPLIFETIME(AReliveGameState, PreviousGameMode);
+	DOREPLIFETIME(AReliveGameState, IsTreasureHuntActive);
 }
 
 void AReliveGameState::ChangeGameMode(EGameMode NewGameMode)

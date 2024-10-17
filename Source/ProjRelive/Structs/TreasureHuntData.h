@@ -16,7 +16,11 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FUniqueNetIdRepl PlayerNetID;
 
-	int ItemId;
+	UPROPERTY(BlueprintReadWrite)
+	TArray<int> UserGatheredItems;
+
+	UPROPERTY(BlueprintReadWrite)
+	int TotalPoints;
 
 	FTreasureHuntData()
 	{

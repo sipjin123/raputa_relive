@@ -34,4 +34,7 @@ public:
 	EGameMode PreviousGameMode;
 	UPROPERTY(BlueprintReadWrite, Category = "GameMode")
 	FGameModeChange GameModeChanged;
+
+	UPROPERTY(BlueprintReadWrite, Replicated, Category = "GameMode")
+	bool IsTreasureHuntActive;
 };
