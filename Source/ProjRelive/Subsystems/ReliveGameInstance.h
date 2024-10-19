@@ -22,4 +22,14 @@ public:
 	
 	UFUNCTION(BlueprintCallable)
 	void TestFunc();
+
+	UFUNCTION(BlueprintCallable)
+	FString GetLobbyScene() const { return "LobbyScene"; }
+	UFUNCTION(BlueprintCallable)
+	FString GetMainScene() const { return "ReliveMain"; }
+	UFUNCTION(BlueprintCallable)
+	float GetWorldZGround() const { return 130.0f; }
+	UFUNCTION(BlueprintCallable)
+	float GetChestsZGround() const { return 10.0f; }
+	//FString GetMainScene() const { return "ReliveMain"; }
 };
