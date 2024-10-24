@@ -127,6 +127,10 @@ public:
 			return "Invinsibility";
 		case EPowerupType::Invisibility:
 			return "Invisibility";
+		case EPowerupType::FanBomb:
+			return "Fanbomb";
+		case EPowerupType::MissionScroll:
+			return "Missionscroll";
 		case EPowerupType::None:
 		default:			
 			return "None";

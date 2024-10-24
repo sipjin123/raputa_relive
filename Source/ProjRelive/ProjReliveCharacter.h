@@ -111,6 +111,9 @@ public:
 	UPROPERTY(BlueprintReadWrite, Replicated, Category = "Stats")
 	bool ShowTeamIndicator;
 
+	UPROPERTY(BlueprintReadWrite, Replicated, Category = "Stats")
+	int PlayerIndex;
+
 	//UPROPERTY(BlueprintReadWrite, Category = "Stats")
 	//FUniqueNetIdRepl PlayerID;
 	UFUNCTION(BlueprintCallable, BlueprintPure)

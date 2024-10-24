@@ -81,6 +81,7 @@ void AProjReliveCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>&
 	DOREPLIFETIME(AProjReliveCharacter, CanMove);
 	DOREPLIFETIME(AProjReliveCharacter, TeamId);
 	DOREPLIFETIME(AProjReliveCharacter, ShowTeamIndicator);
+	DOREPLIFETIME(AProjReliveCharacter, PlayerIndex);
 }
 
 void AProjReliveCharacter::BeginPlay()
