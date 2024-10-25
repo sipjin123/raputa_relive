@@ -33,7 +33,7 @@ protected:
 	// Executed by Server, Sends to All Clients
 	UFUNCTION(NetMulticast, Reliable, BlueprintCallable)
 	void NetMulticast_CallOnAllClient();*/
-
+	// UPROPERTY(replicatedUsing = OnRep_ReplicatedMaterial0)
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	TSubclassOf<UUserWidget> InventoryWidget;
 

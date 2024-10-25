@@ -15,12 +15,30 @@ void AReliveGameState::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Out
 	DOREPLIFETIME(AReliveGameState, IsSinglePlayer);
 	DOREPLIFETIME(AReliveGameState, CurrentGameMode);
 	DOREPLIFETIME(AReliveGameState, PreviousGameMode);
+	DOREPLIFETIME(AReliveGameState, CurrentSubGameMode);
+	DOREPLIFETIME(AReliveGameState, PreviousSubGameMode);
 	DOREPLIFETIME(AReliveGameState, IsTreasureHuntActive);
+	DOREPLIFETIME(AReliveGameState, RemainingDefenseLife);
 }
 
 void AReliveGameState::ChangeGameMode(EGameMode NewGameMode)
 {
 	PreviousGameMode = CurrentGameMode;
 	CurrentGameMode = NewGameMode;
-	GameModeChanged.Broadcast(NewGameMode);
+}
+
+void AReliveGameState::ChangeSubGameMode(EGameMode NewGameMode)
+{
+	PreviousSubGameMode = CurrentSubGameMode;
+	CurrentSubGameMode = NewGameMode;
+}
+
+void AReliveGameState::TriggerGameModeChange()
+{
+	GameModeChanged.Broadcast(CurrentGameMode);
+}
+
+void AReliveGameState::TriggerSubGameModeChange()
+{
+	SubGameModeChange.Broadcast(CurrentSubGameMode);
 }

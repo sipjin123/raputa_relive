@@ -11,6 +11,7 @@
  * 
  */
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FGameModeChange, EGameMode, NewGameMode);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FSubGameModeChange, EGameMode, NewGameMode);
 UCLASS()
 class PROJRELIVE_API AReliveGameState : public AGameStateBase
 {
@@ -27,14 +28,32 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "GameMode")
 	void ChangeGameMode(EGameMode NewGameMode);
+	UFUNCTION(BlueprintCallable, Category = "GameMode")
+	void ChangeSubGameMode(EGameMode NewGameMode);
 
-	UPROPERTY(BlueprintReadWrite, Replicated, Category = "GameMode")
+	UFUNCTION()
+	void TriggerGameModeChange();
+	UFUNCTION()
+	void TriggerSubGameModeChange();
+
+	UPROPERTY(BlueprintReadWrite, Replicated, ReplicatedUsing = TriggerGameModeChange, Category = "GameMode")
 	EGameMode CurrentGameMode;
 	UPROPERTY(BlueprintReadWrite, Replicated, Category = "GameMode")
 	EGameMode PreviousGameMode;
-	UPROPERTY(BlueprintReadWrite, Category = "GameMode")
+
+	UPROPERTY(BlueprintReadWrite, Replicated, ReplicatedUsing = TriggerSubGameModeChange, Category = "GameMode")
+	EGameMode CurrentSubGameMode;
+	UPROPERTY(BlueprintReadWrite, Replicated, Category = "GameMode")
+	EGameMode PreviousSubGameMode;
+
+	UPROPERTY(BlueprintReadWrite, BlueprintAssignable, Category = "GameMode")
 	FGameModeChange GameModeChanged;
+	UPROPERTY(BlueprintReadWrite, BlueprintAssignable, Category = "GameMode")
+	FSubGameModeChange SubGameModeChange;
 
 	UPROPERTY(BlueprintReadWrite, Replicated, Category = "GameMode")
 	bool IsTreasureHuntActive;
+
+	UPROPERTY(BlueprintReadWrite, Replicated, Category = "GameMode")
+	int RemainingDefenseLife;
 };
