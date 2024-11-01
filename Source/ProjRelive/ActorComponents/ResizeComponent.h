@@ -89,6 +89,9 @@ public:
 	UPROPERTY(BlueprintReadWrite, Replicated, Category = "Stats")
 	EResizeState ResizeState = EResizeState::None;
 
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category = "Stats")
+	EActorType ActorType;
+
 	UPROPERTY(BlueprintReadWrite, Category = "Stats")
 	float ShrinkSpeed = 2.0f;
 	UPROPERTY(BlueprintReadWrite, Category = "Stats")
