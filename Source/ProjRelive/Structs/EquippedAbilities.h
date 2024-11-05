@@ -25,11 +25,15 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FItemData ItemData;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FDateTime DateTimeCasted;
+
 	FEquippedAbilities()
 	{
 		ItemId = -1;
 		PowerupType = EPowerupType::None;
 		ItemData = FItemData();
+		DateTimeCasted = FDateTime::Now();
 	}
 
 	void ClearContent();

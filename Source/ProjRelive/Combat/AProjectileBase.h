@@ -7,6 +7,8 @@
 #include "ProjRelive/Core/ReliveActor.h"
 #include "AProjectileBase.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnPooledObj);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnResetObj);
 UCLASS()
 class PROJRELIVE_API AAProjectileBase : public AReliveActor
 {
@@ -45,6 +47,12 @@ public:
 	
 	UPROPERTY(BlueprintReadWrite, Category = "Spawnable")
 	AReliveActor* SpawnedTargetIndicator;
+
+	UPROPERTY(BlueprintAssignable, BlueprintCallable, BlueprintReadWrite)
+	FOnResetObj OnResetObj;
+
+	UPROPERTY(BlueprintAssignable, BlueprintCallable, BlueprintReadWrite)
+	FOnPooledObj OnPooledObj;
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
