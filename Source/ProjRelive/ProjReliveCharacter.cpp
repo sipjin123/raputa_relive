@@ -82,6 +82,7 @@ void AProjReliveCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>&
 	DOREPLIFETIME(AProjReliveCharacter, TeamId);
 	DOREPLIFETIME(AProjReliveCharacter, ShowTeamIndicator);
 	DOREPLIFETIME(AProjReliveCharacter, PlayerIndex);
+	DOREPLIFETIME(AProjReliveCharacter, IsMovingToPoint);
 }
 
 void AProjReliveCharacter::BeginPlay()
@@ -161,6 +162,13 @@ void AProjReliveCharacter::Move(const FInputActionValue& Value)
 		// find out which way is forward
 		const FRotator Rotation = Controller->GetControlRotation();
 		const FRotator YawRotation(0, Rotation.Yaw, 0);
+
+		if (IsMovingToPoint) {
+			if (FMath::Abs(MovementVector.X) > 0 || FMath::Abs(MovementVector.Y) > 0) {
+				IsMovingToPoint = false;
+				OnMovementOverride.Broadcast();
+			}
+		}
 
 		// get forward vector
 		const FVector ForwardDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);

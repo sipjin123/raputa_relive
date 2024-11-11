@@ -3,6 +3,8 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include <ProjRelive/Enums/PlayerCombatState.h>
+#include <ProjRelive/Enums/PlayerGameModeStates.h>
 #include "ScoringData.generated.h"
 /**
  *

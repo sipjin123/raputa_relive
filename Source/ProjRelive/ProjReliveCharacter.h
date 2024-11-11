@@ -21,6 +21,7 @@ struct FInputActionValue;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnLookAtComplete);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnTeamChanged);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnMovementOverride);
 DECLARE_LOG_CATEGORY_EXTERN(LogTemplateCharacter, Log, All);
 
 UCLASS()
@@ -126,6 +127,8 @@ public:
 	UPROPERTY(BlueprintReadWrite, Replicated, Category = "Stats")
 	bool IsUsingAbility;
 
+	UPROPERTY(BlueprintReadWrite, Replicated, Category = "Controls")
+	bool IsMovingToPoint;
 	UPROPERTY(BlueprintReadWrite, Category="Controls")
 	bool FreezeInput;
 	UPROPERTY(BlueprintReadWrite, Category="Rotation")
@@ -143,6 +146,8 @@ public:
 	bool IsDead;
 	UPROPERTY(Replicated, BlueprintReadWrite, Category = "Movement")
 	bool CanMove = true;
+	UPROPERTY(BlueprintReadWrite, Category = "Movement")
+	bool IsHoldingCtrl = false;
 	
 	UPROPERTY(BlueprintReadWrite, Category="Reference")
 	FVector TargetClickedLocation;
@@ -151,5 +156,8 @@ public:
 
 	UPROPERTY(BlueprintAssignable, BlueprintCallable)
 	FOnTeamChanged OnTeamChanged;
+
+	UPROPERTY(BlueprintAssignable, BlueprintCallable)
+	FOnMovementOverride OnMovementOverride;
 };
 
