@@ -83,6 +83,7 @@ void AProjReliveCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>&
 	DOREPLIFETIME(AProjReliveCharacter, ShowTeamIndicator);
 	DOREPLIFETIME(AProjReliveCharacter, PlayerIndex);
 	DOREPLIFETIME(AProjReliveCharacter, IsMovingToPoint);
+	DOREPLIFETIME(AProjReliveCharacter, IsHost);
 }
 
 void AProjReliveCharacter::BeginPlay()
@@ -112,6 +113,11 @@ void AProjReliveCharacter::BeginPlay()
 void AProjReliveCharacter::OnRep_TeamId()
 {
 	OnTeamChanged.Broadcast();
+}
+
+void AProjReliveCharacter::OnRep_SetHost()
+{
+	OnHostDeclared.Broadcast();
 }
 
 FUniqueNetIdRepl AProjReliveCharacter::GetPlayerID()

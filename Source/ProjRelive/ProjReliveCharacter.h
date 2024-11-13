@@ -21,6 +21,7 @@ struct FInputActionValue;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnLookAtComplete);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnTeamChanged);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnHostDeclared);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnMovementOverride);
 DECLARE_LOG_CATEGORY_EXTERN(LogTemplateCharacter, Log, All);
 
@@ -126,6 +127,10 @@ public:
 	int PowerupQuantity;
 	UPROPERTY(BlueprintReadWrite, Replicated, Category = "Stats")
 	bool IsUsingAbility;
+	UPROPERTY(BlueprintReadWrite, Replicated, Category = "Stats", ReplicatedUsing = OnRep_SetHost)
+	bool IsHost;
+	UFUNCTION()
+	void OnRep_SetHost();
 
 	UPROPERTY(BlueprintReadWrite, Replicated, Category = "Controls")
 	bool IsMovingToPoint;
@@ -158,6 +163,12 @@ public:
 	FOnTeamChanged OnTeamChanged;
 
 	UPROPERTY(BlueprintAssignable, BlueprintCallable)
+	FOnHostDeclared OnHostDeclared;
+
+	UPROPERTY(BlueprintAssignable, BlueprintCallable)
 	FOnMovementOverride OnMovementOverride;
+
+	UPROPERTY(BlueprintReadWrite)
+	AActor* ActorTarget;
 };
 

@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Engine/GameInstance.h"
+#include <ProjRelive/ProjReliveCharacter.h>
 #include "ReliveGameInstance.generated.h"
 
 /**
@@ -31,5 +32,12 @@ public:
 	float GetWorldZGround() const { return 130.0f; }
 	UFUNCTION(BlueprintCallable)
 	float GetChestsZGround() const { return 10.0f; }
+
+	UPROPERTY(BlueprintReadWrite)
+	AProjReliveCharacter* HostCharacter;
+
+	UPROPERTY(BlueprintReadWrite)
+	int HostPlayerId;
+
 	//FString GetMainScene() const { return "ReliveMain"; }
 };
