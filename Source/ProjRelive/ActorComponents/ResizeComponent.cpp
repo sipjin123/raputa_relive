@@ -108,6 +108,11 @@ void UResizeComponent::ResetScale()
 	}
 }
 
+void UResizeComponent::ResetVariables()
+{
+	OnResetVariables.Broadcast();
+}
+
 void UResizeComponent::RegisterOriginScale()
 {
 	if (GetOwner()) {

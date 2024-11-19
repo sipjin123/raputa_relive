@@ -9,6 +9,7 @@
 
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnShrink);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnResetVariables);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnEnlarge);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnFinishResize);
 UCLASS(Blueprintable, BlueprintType, ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
@@ -37,7 +38,9 @@ public:
 	FOnEnlarge OnEnlarge;
 	UPROPERTY(BlueprintCallable, BlueprintAssignable, Category = "Delegates")
 	FOnFinishResize OnFinishResize;
-	
+	UPROPERTY(BlueprintCallable, BlueprintAssignable, Category = "Delegates")
+	FOnResetVariables OnResetVariables;
+
 	UFUNCTION(BlueprintCallable)
 	void Enlarge(bool ShouldDestroyOnEnd);
 	UFUNCTION(Server, Reliable, BlueprintCallable)
@@ -61,6 +64,8 @@ public:
 	void FinishResizing();
 	UFUNCTION(BlueprintCallable)
 	void ResetScale();
+	UFUNCTION(BlueprintCallable)
+	void ResetVariables();
 	UFUNCTION(BlueprintCallable)
 	void RegisterOriginScale();
 
