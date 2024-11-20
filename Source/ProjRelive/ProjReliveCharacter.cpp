@@ -84,6 +84,7 @@ void AProjReliveCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>&
 	DOREPLIFETIME(AProjReliveCharacter, PlayerIndex);
 	DOREPLIFETIME(AProjReliveCharacter, IsMovingToPoint);
 	DOREPLIFETIME(AProjReliveCharacter, IsHost);
+	DOREPLIFETIME(AProjReliveCharacter, IsNotTargetable);
 }
 
 void AProjReliveCharacter::BeginPlay()

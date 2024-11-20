@@ -129,6 +129,8 @@ public:
 	bool IsUsingAbility;
 	UPROPERTY(BlueprintReadWrite, Replicated, Category = "Stats", ReplicatedUsing = OnRep_SetHost)
 	bool IsHost;
+	UPROPERTY(BlueprintReadWrite, Replicated, Category = "Stats")
+	bool IsNotTargetable;
 	UFUNCTION()
 	void OnRep_SetHost();
 
