@@ -67,7 +67,7 @@ public:
 	bool IsInventoryOpen;
 	
 	UFUNCTION(BlueprintCallable)
-	void AddItemToInventory(FItemData ItemData);
+	void AddItemToInventory(FItemData ItemData, int QuantityOverride);
 	UFUNCTION(BlueprintCallable)
 	void SyncUserItems();
 

@@ -80,7 +80,7 @@ void UInventoryComponent::OpenInventory()
 	}
 }
 
-void UInventoryComponent::AddItemToInventory(FItemData ItemData)
+void UInventoryComponent::AddItemToInventory(FItemData ItemData, int QuantityOverride)
 {
 	UE_LOG(LogTemp, Log, TEXT("Adding Item To Inventory C++: {%d}"), ItemData.Id);
 
@@ -95,7 +95,14 @@ void UInventoryComponent::AddItemToInventory(FItemData ItemData)
 		if (ExistingItemIndex >= 0 && UserItems.Num() > ExistingItemIndex)
 		{
 			// Increment the quantity of Inventory Slots
-			UserItems[ExistingItemIndex].Quantity += ItemData.Quantity;
+			if (QuantityOverride > 0)
+			{
+				UserItems[ExistingItemIndex].Quantity += QuantityOverride;
+			}
+			else
+			{
+				UserItems[ExistingItemIndex].Quantity += ItemData.Quantity;
+			}
 
 			// Increment the quantity of Ability Slots
 			for (int i = 0; i < EquippedUserAbilities.Num(); i++)
@@ -108,6 +115,11 @@ void UInventoryComponent::AddItemToInventory(FItemData ItemData)
 		}
 		else
 		{
+			if (QuantityOverride > 0)
+			{
+				ItemData.Quantity = QuantityOverride;
+			}
+
 			// Add new Item to Inventory
 			UserItems.Add(ItemData);
 

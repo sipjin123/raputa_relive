@@ -48,6 +48,9 @@ public:
 	UPROPERTY(BlueprintReadWrite, Category = "Spawnable")
 	AReliveActor* SpawnedTargetIndicator;
 
+	UPROPERTY(BlueprintReadWrite, Category = "Spawnable")
+	AActor* LockedTargetActor;
+
 	UPROPERTY(BlueprintAssignable, BlueprintCallable, BlueprintReadWrite)
 	FOnResetObj OnResetObj;
 
