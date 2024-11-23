@@ -33,4 +33,5 @@ enum class EActorType : uint8 {
 	PowerupChest = 4 UMETA(DisplayName = "PowerupChest"),
 	SlowPotion = 5 UMETA(DisplayName = "SlowPotion"),
 	LiveChicken = 6 UMETA(DisplayName = "LiveChicken"),
+	Wolf = 7 UMETA(DisplayName = "Wolf"),
 };
