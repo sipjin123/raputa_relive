@@ -13,6 +13,15 @@ class AProjReliveGameMode : public AGameModeBase
 
 public:
 	AProjReliveGameMode();
+
+	UFUNCTION(BlueprintCallable, BlueprintPure)
+	bool IsThisDedicatedServer() {
+		return GetWorld()->GetNetMode() == NM_DedicatedServer;
+	}
+	UFUNCTION(BlueprintCallable, BlueprintPure)
+	bool IsThisListenServer() {
+		return GetWorld()->GetNetMode() == NM_ListenServer;
+	}
 };
 
 
