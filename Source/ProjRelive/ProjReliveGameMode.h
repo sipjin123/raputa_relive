@@ -28,7 +28,14 @@ protected:
 
 	virtual void Logout(AController* Exiting) override;
 
-
+	UFUNCTION(BlueprintCallable, BlueprintPure)
+	bool IsThisDedicatedServer() {
+		return GetWorld()->GetNetMode() == NM_DedicatedServer;
+	}
+	UFUNCTION(BlueprintCallable, BlueprintPure)
+	bool IsThisListenServer() {
+		return GetWorld()->GetNetMode() == NM_ListenServer;
+	}
 private:
 
 	UPROPERTY()

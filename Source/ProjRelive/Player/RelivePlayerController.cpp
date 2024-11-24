@@ -74,7 +74,7 @@ void ARelivePlayerController::AcknowledgePossession(APawn* P)
 	bShowMouseCursor = true;
 	bEnableClickEvents = true;
 	bEnableMouseOverEvents = true;
-	SetInputMode(FInputModeGameOnly());
+	SetInputMode(FInputModeGameAndUI());
 }
 
 void ARelivePlayerController::BeginPlay()
