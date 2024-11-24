@@ -1,0 +1,26 @@
+{
+	"FileVersion": 1,
+	"Version": 1,
+	"VersionName": "0.0.1",
+	"FriendlyName": "WebSocket",
+	"Description": "WebSocket",
+	"Category": "Socket",
+	"CreatedBy": "Gu Hong",
+	"CreatedByURL": "",
+	"DocsURL": "",
+	"MarketplaceURL" : "",
+	"SupportURL": "",
+	"EngineVersion": "5.4.0",
+	"CanContainContent": true,
+	"Installed": true,
+	"Modules": [
+		{
+			"Name": "WebSocket",
+			"Type": "Runtime",
+			"LoadingPhase": "PreDefault",
+			"WhitelistPlatforms": [
+				"Win64"
+			]
+		}
+	]
+}
