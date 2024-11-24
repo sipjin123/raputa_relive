@@ -8,6 +8,11 @@
 #include "ProjRelive/Core/ReliveActor.h"
 #include "RelivePlayerController.generated.h"
 
+
+class AProjReliveCharacter;
+class APlayerSpawnPoint;
+
+
 /**
  * 
  */
@@ -17,12 +22,15 @@ UCLASS()
 class PROJRELIVE_API ARelivePlayerController : public APlayerController
 {
 	GENERATED_BODY()
-protected:
-	// Called when the game starts
-	virtual void BeginPlay() override;
 	
 public:
-	ARelivePlayerController();
+	ARelivePlayerController(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
+
+	UFUNCTION(Client, Reliable)
+	void Client_CanSpawnAvatar(const int32 SpawnPosIndex);
+
+	UFUNCTION(Server, Reliable)
+	void Server_ReqSpawnAvatar(const int32 SpawnPosIndex, const int32 AvatarIndex);
 	
 	UPROPERTY(BlueprintReadWrite, Category="References")
 	AActor* ReliveCharacter;
@@ -38,6 +46,26 @@ public:
 
 	UPROPERTY(BlueprintAssignable,BlueprintCallable)
 	FOnPossessAcknowledge OnPossessAcknowledge;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	TMap<int32, TSubclassOf<AProjReliveCharacter>> SpawnCharacterPair;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	TSubclassOf<APlayerSpawnPoint> SpawnPointClass = nullptr;
+
+
 protected:
 	virtual void AcknowledgePossession(APawn* P) override;
+
+	// Called when the game starts
+	virtual void BeginPlay() override;
+
+private:
+
+	void InitSpawnPoint();
+
+	// 所有的出生点 类型是 APlayerSpawnPoint
+	TArray<AActor*> AllSpawnPoints;
+
+
 };
