@@ -54,7 +54,7 @@ void ARelivePlayerController::Server_ReqSpawnAvatar_Implementation(const int32 S
 		GetWorld(),
 		SpawnCharacterPair[AvatarIndex],
 		FTransform(TempSpawnRotation, TempSpawnLocation),
-		ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding,
+		ESpawnActorCollisionHandlingMethod::AlwaysSpawn,
 		this));
 
 	if (!ControlledCharacter)

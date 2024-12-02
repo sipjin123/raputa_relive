@@ -53,6 +53,8 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	TSubclassOf<APlayerSpawnPoint> SpawnPointClass = nullptr;
 
+	UPROPERTY(BlueprintReadWrite, Category = "Stats")
+	bool IsMouseOnHold;
 
 protected:
 	virtual void AcknowledgePossession(APawn* P) override;
@@ -66,6 +68,4 @@ private:
 
 	// 所有的出生点 类型是 APlayerSpawnPoint
 	TArray<AActor*> AllSpawnPoints;
-
-
 };
