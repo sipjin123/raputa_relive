@@ -30,7 +30,7 @@ public:
 	void Client_CanSpawnAvatar(const int32 SpawnPosIndex);
 
 	UFUNCTION(Server, Reliable)
-	void Server_ReqSpawnAvatar(const int32 SpawnPosIndex, const int32 AvatarIndex);
+	void Server_ReqSpawnAvatar(const int32 SpawnPosIndex, const int32 AvatarIndex, const FString& SelfName);
 	
 	UPROPERTY(BlueprintReadWrite, Category="References")
 	AActor* ReliveCharacter;
@@ -64,8 +64,8 @@ protected:
 
 private:
 
-	void InitSpawnPoint();
-
 	// 所有的出生点 类型是 APlayerSpawnPoint
 	TArray<AActor*> AllSpawnPoints;
+
+
 };

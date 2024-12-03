@@ -2,6 +2,7 @@
 
 #include "RelivePlayerController.h"
 #include "ProjRelive.h"
+#include "RelivePlayerState.h"
 #include "ProjReliveCharacter.h"
 #include "World/PlayerSpawnPoint.h"
 #include "Subsystems/LoginSubSystem.h"
@@ -36,13 +37,16 @@ void ARelivePlayerController::Client_CanSpawnAvatar_Implementation(const int32 S
 
 	int32 AvatarIndex = LoginSubSystem->GetCurrentSelectPawnIndex();
 	AvatarIndex = AvatarIndex % SpawnCharacterPair.Num();
-	Server_ReqSpawnAvatar(SpawnPosIndex, AvatarIndex);
+	Server_ReqSpawnAvatar(SpawnPosIndex, AvatarIndex, LoginSubSystem->GetSelfName());
 }
 
-void ARelivePlayerController::Server_ReqSpawnAvatar_Implementation(const int32 SpawnPosIndex, const int32 AvatarIndex)
+void ARelivePlayerController::Server_ReqSpawnAvatar_Implementation(const int32 SpawnPosIndex, const int32 AvatarIndex, const FString& SelfName)
 {
+	AllSpawnPoints.Empty();
+	UGameplayStatics::GetAllActorsOfClass(GetWorld(), SpawnPointClass, AllSpawnPoints);
 	if (AllSpawnPoints.IsEmpty())
 	{
+		UE_LOG(LogProjRelive, Error, TEXT("%s(): %d can not find APlayerSpawnPoint"), *FString(__FUNCTION__), __LINE__);
 		return;
 	}
 
@@ -54,7 +58,7 @@ void ARelivePlayerController::Server_ReqSpawnAvatar_Implementation(const int32 S
 		GetWorld(),
 		SpawnCharacterPair[AvatarIndex],
 		FTransform(TempSpawnRotation, TempSpawnLocation),
-		ESpawnActorCollisionHandlingMethod::AlwaysSpawn,
+		ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding,
 		this));
 
 	if (!ControlledCharacter)
@@ -62,8 +66,17 @@ void ARelivePlayerController::Server_ReqSpawnAvatar_Implementation(const int32 S
 		return;
 	}
 
+
 	UGameplayStatics::FinishSpawningActor(ControlledCharacter, FTransform(TempSpawnRotation, TempSpawnLocation));
 	Possess(ControlledCharacter);
+
+	ARelivePlayerState* PS = Cast<ARelivePlayerState>(ControlledCharacter->GetPlayerState());
+	if (!PS)
+	{
+		return;
+	}
+
+	PS->CharacterName = SelfName;
 }
 
 void ARelivePlayerController::AcknowledgePossession(APawn* P)
@@ -81,8 +94,6 @@ void ARelivePlayerController::BeginPlay()
 {
 	Super::BeginPlay();
 
-	InitSpawnPoint();
-
 	if (ReliveCharacter == nullptr)
 	{
 		ReliveCharacter = Cast<AActor>(GetPawn());
@@ -96,17 +107,4 @@ void ARelivePlayerController::BeginPlay()
 	{
 		UE_LOG(LogTemp, Log, TEXT("Failed to assign Relive Character"));
 	}
-}
-
-void ARelivePlayerController::InitSpawnPoint()
-{
-	AllSpawnPoints.Empty();
-	UGameplayStatics::GetAllActorsOfClass(GetWorld(), SpawnPointClass, AllSpawnPoints);
-	if (AllSpawnPoints.IsEmpty())
-	{
-		UE_LOG(LogProjRelive, Error, TEXT("%s(): %d can not find APlayerSpawnPoint"), *FString(__FUNCTION__), __LINE__);
-		return;
-	}
-
-	UE_LOG(LogProjRelive, Warning, TEXT("%s(): %d APlayerSpawnPoint num is: %d"), *FString(__FUNCTION__), __LINE__, AllSpawnPoints.Num());
 }

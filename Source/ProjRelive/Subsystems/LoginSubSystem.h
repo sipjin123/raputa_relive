@@ -25,6 +25,12 @@ public:
 	UFUNCTION(BlueprintCallable)
 	int32 GetCurrentSelectPawnIndex() const { return SelectIndex; }
 
+	UFUNCTION(BlueprintCallable)
+	void UpdateSelfName(const FString& NewName);
+
+	UFUNCTION(BlueprintCallable)
+	FString GetSelfName() const { return SelfName; }
+
 	UPROPERTY(BlueprintAssignable)
 	FOnSelectPawnIndexChange OnSelectPawnIndexChange;
 
@@ -32,5 +38,8 @@ private:
 
 	// current choosed pawn Index
 	int32 SelectIndex = 0;
+
+	// self pawn Show Name setting
+	FString SelfName;
 
 };

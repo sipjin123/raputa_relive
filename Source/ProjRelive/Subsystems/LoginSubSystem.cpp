@@ -41,3 +41,8 @@ void ULoginSubSystem::UpdateSelectPawnIndex(const int32 Index)
 
 	OnSelectPawnIndexChange.Broadcast(SelectIndex, OldIndex);
 }
+
+void ULoginSubSystem::UpdateSelfName(const FString& NewName)
+{
+	SelfName = NewName;
+}

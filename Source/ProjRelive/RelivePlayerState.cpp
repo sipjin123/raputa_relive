@@ -2,6 +2,8 @@
 
 
 #include "RelivePlayerState.h"
+#include "ProjReliveCharacter.h"
+
 #include "Net/UnrealNetwork.h"
 
 ARelivePlayerState::ARelivePlayerState()
@@ -19,4 +21,20 @@ void ARelivePlayerState::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& O
 
 	DOREPLIFETIME(ARelivePlayerState, CooldownData);
 	DOREPLIFETIME(ARelivePlayerState, PlayerIndex);
+	DOREPLIFETIME(ARelivePlayerState, CharacterName);
+}
+
+void ARelivePlayerState::SetSelfCharacter(AProjReliveCharacter* Character)
+{
+	if (!Character)
+	{
+		return;
+	}
+
+	SelfCharacter = Character;
+}
+
+void ARelivePlayerState::OnRep_CharacterName(FString OldName)
+{
+	SelfCharacter->UpdateCharacterSelfUI();
 }

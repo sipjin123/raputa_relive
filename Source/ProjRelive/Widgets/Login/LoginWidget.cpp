@@ -6,12 +6,33 @@
 
 #include "Configuration/ServerConfig.h"
 
+#include "Components/EditableTextBox.h"
 #include "Kismet/GameplayStatics.h"
 
 
 void ULoginWidget::OnStartGameBtnClicked()
 {
-	ALoginController* PC = Cast<ALoginController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
+	const UWorld* CurrentWorld = GetWorld();
+	if (!CurrentWorld)
+	{
+		return;
+	}
+
+	UGameInstance* GI = Cast<UGameInstance>(UGameplayStatics::GetGameInstance(CurrentWorld));
+	if (!GI)
+	{
+		return;
+	}
+
+	ULoginSubSystem* LoginSubSystem = GI->GetSubsystem<ULoginSubSystem>();
+	if (!LoginSubSystem)
+	{
+		return;
+	}
+	
+	LoginSubSystem->UpdateSelfName(SelfName->GetText().ToString());
+
+	ALoginController* PC = Cast<ALoginController>(UGameplayStatics::GetPlayerController(CurrentWorld, 0));
 	if (!PC)
 	{
 		return;

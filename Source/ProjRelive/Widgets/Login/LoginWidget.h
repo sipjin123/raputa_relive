@@ -6,6 +6,7 @@
 
 
 
+class UEditableTextBox;
 class UButtonText;
 
 
@@ -22,12 +23,14 @@ public:
 	UFUNCTION()
 	void OnSelectAvatarBtnClicked();
 
+	UPROPERTY(BlueprintReadOnly, meta = (BindWidget))
+	TObjectPtr<UEditableTextBox> SelfName;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Meta = (BindWidget))
-	TObjectPtr<UButtonText> StartGameBtn = nullptr;	    // 开始游戏
+	TObjectPtr<UButtonText> StartGameBtn;	    // 开始游戏
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Meta = (BindWidget))
-	TObjectPtr<UButtonText> SelectAvatarBtn = nullptr;		// 选择 avatar
+	TObjectPtr<UButtonText> SelectAvatarBtn;		// 选择 avatar
 
 protected:
 

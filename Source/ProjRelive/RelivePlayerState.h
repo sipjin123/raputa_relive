@@ -26,9 +26,25 @@ protected:
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
 public:
+
+	UFUNCTION()
+	void SetSelfCharacter(AProjReliveCharacter* Character);
+
 	UPROPERTY(BlueprintReadWrite, Replicated)
 	TArray<FCooldownData> CooldownData;
 
 	UPROPERTY(BlueprintReadWrite, Replicated)
 	int PlayerIndex;
+
+	UFUNCTION()
+	void OnRep_CharacterName(FString OldName);
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_CharacterName)
+	FString CharacterName;
+
+
+private:
+
+	UPROPERTY()
+	TWeakObjectPtr<AProjReliveCharacter> SelfCharacter = nullptr;
+
 };

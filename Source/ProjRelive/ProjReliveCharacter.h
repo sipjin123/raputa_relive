@@ -17,6 +17,7 @@ class USpringArmComponent;
 class UCameraComponent;
 class UInputMappingContext;
 class UInputAction;
+class UWidgetComponent;
 struct FInputActionValue;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnLookAtComplete);
@@ -42,6 +43,9 @@ class AProjReliveCharacter : public ACharacter, public IAbilitySystemInterface
 	/** Follow camera root */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	USceneComponent* CameraRoot;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "UI", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UWidgetComponent> StatusBarComponent;
 	
 	/** MappingContext */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
@@ -62,6 +66,9 @@ class AProjReliveCharacter : public ACharacter, public IAbilitySystemInterface
 public:
 	AProjReliveCharacter();
 	
+	UFUNCTION()
+	void UpdateCharacterSelfUI();
+
 	UPROPERTY(BlueprintAssignable, BlueprintCallable, BlueprintReadWrite)
 	FOnLookAtComplete OnLookAtComplete;
 
@@ -94,7 +101,12 @@ protected:
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
 	// To add mapping context
-	virtual void BeginPlay();
+	virtual void BeginPlay() override;
+
+	virtual void PossessedBy(AController* NewController) override;
+
+	/** Callback on player state being replicated. */
+	void OnRep_PlayerState() override;
 
 public:
 	/** Returns CameraBoom subobject **/
@@ -172,5 +184,7 @@ public:
 
 	UPROPERTY(BlueprintReadWrite)
 	AActor* ActorTarget;
+
+
 };
 

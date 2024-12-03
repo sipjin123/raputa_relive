@@ -2,22 +2,27 @@
 
 #include "ProjReliveCharacter.h"
 #include "Engine/LocalPlayer.h"
+#include "Player/RelivePlayerController.h"
+#include "RelivePlayerState.h"
+#include "Widgets/World/StatusBarWidget.h"
+#include "Subsystems/LoginSubSystem.h"
 
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
 
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
-#include "GameFramework/Controller.h"
 #include "GameFramework/PlayerState.h"
 
 #include "ActorComponents/MorphComponent.h"
 #include "ActorComponents/PlayerModifierComponent.h"
 
+#include "Components/WidgetComponent.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "AbilitySystemComponent.h"
 #include "InputActionValue.h"
+#include "Kismet/GameplayStatics.h"
 #include "Net/UnrealNetwork.h"
 
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
@@ -67,6 +72,9 @@ AProjReliveCharacter::AProjReliveCharacter()
 
 	AbilitySystemComponent = CreateDefaultSubobject<UAbilitySystemComponent>(TEXT("AbilitySystemComponent"));
 	AbilitySystemComponent->SetIsReplicated(true);
+
+	StatusBarComponent = CreateDefaultSubobject<UWidgetComponent>(FName("StatusBarComponent"));
+	StatusBarComponent->SetupAttachment(RootComponent);
 }
 
 void AProjReliveCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
@@ -108,7 +116,45 @@ void AProjReliveCharacter::BeginPlay()
 			Subsystem->AddMappingContext(DefaultMappingContext, 0);
 		}
 	}
+}
 
+void AProjReliveCharacter::PossessedBy(AController* NewController)
+{
+	Super::PossessedBy(NewController);
+}
+
+void AProjReliveCharacter::OnRep_PlayerState()
+{
+	Super::OnRep_PlayerState();
+
+	ARelivePlayerState* PS = GetPlayerState<ARelivePlayerState>();
+	if (!PS)
+	{
+		return;
+	}
+	PS->SetSelfCharacter(this);
+}
+
+void AProjReliveCharacter::UpdateCharacterSelfUI()
+{
+	if (!StatusBarComponent)
+	{
+		return;
+	}
+
+	UStatusBarWidget* StatusBar = Cast<UStatusBarWidget>(StatusBarComponent->GetWidget());
+	if (!StatusBar)
+	{
+		return;
+	}
+
+	ARelivePlayerState* PS = GetPlayerState<ARelivePlayerState>();
+	if (!PS)
+	{
+		return;
+	}
+
+	StatusBar->UpdateCharacterName(PS->CharacterName);
 }
 
 void AProjReliveCharacter::OnRep_TeamId()
