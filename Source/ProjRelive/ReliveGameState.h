@@ -55,5 +55,8 @@ public:
 	bool IsTreasureHuntActive;
 
 	UPROPERTY(BlueprintReadWrite, Replicated, Category = "GameMode")
+	bool IsFreeMode;
+
+	UPROPERTY(BlueprintReadWrite, Replicated, Category = "GameMode")
 	int RemainingDefenseLife;
 };
