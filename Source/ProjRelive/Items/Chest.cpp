@@ -29,6 +29,11 @@ void AChest::Tick(float DeltaTime)
 
 }
 
+void AChest::ForcePrivateRelevancy(bool isTrue)
+{
+	bOnlyRelevantToOwner = true;
+}
+
 void AChest::SpawnChestItemEvent_Implementation()
 {
 	SpawnChestItem.Broadcast();

@@ -46,6 +46,9 @@ public:
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	void SpawnChestItemEvent();
 
+	UFUNCTION(BlueprintCallable)
+	void ForcePrivateRelevancy(bool isTrue);
+
 	UPROPERTY(BlueprintReadWrite)
 	AActor* PlayerTarget;
 };
