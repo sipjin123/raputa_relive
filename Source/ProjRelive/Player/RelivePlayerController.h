@@ -27,10 +27,10 @@ public:
 	ARelivePlayerController(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
 
 	UFUNCTION(Client, Reliable)
-	void Client_CanSpawnAvatar(const int32 SpawnPosIndex);
+	void Client_CanSpawnAvatar();
 
 	UFUNCTION(Server, Reliable)
-	void Server_ReqSpawnAvatar(const int32 SpawnPosIndex, const int32 AvatarIndex, const FString& SelfName);
+	void Server_ReqSpawnAvatar(const int32 SpawnPosIndex, const int32 AvatarIndex, const FString& ID);
 	
 	UPROPERTY(BlueprintReadWrite, Category="References")
 	AActor* ReliveCharacter;

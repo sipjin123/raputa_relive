@@ -6,9 +6,29 @@
 
 
 
+class UListView;
 class UEditableTextBox;
 class UButtonText;
 
+
+UCLASS(Blueprintable)
+class UVTuberInfoData : public UObject
+{
+	GENERATED_BODY()
+
+public:
+
+	void Reset()
+	{
+		VTuberId = "";
+		VTuberName = "";
+		SpawnIndex = -1;
+	}
+
+	FString VTuberId = "";
+	FString VTuberName = "";
+	int32  SpawnIndex = -1;
+};
 
 UCLASS()
 class PROJRELIVE_API ULoginWidget : public UUserWidget
@@ -23,8 +43,8 @@ public:
 	UFUNCTION()
 	void OnSelectAvatarBtnClicked();
 
-	UPROPERTY(BlueprintReadOnly, meta = (BindWidget))
-	TObjectPtr<UEditableTextBox> SelfName;
+	UPROPERTY(EditDefaultsOnly, Category = ">Widgets", Meta = (BindWidget))
+	TObjectPtr<UListView> VTuberInfoList;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Meta = (BindWidget))
 	TObjectPtr<UButtonText> StartGameBtn;	    // 开始游戏
@@ -36,5 +56,17 @@ protected:
 
 	virtual void NativeConstruct() override;
 
+	/*
+	* 当选中 某一个 VTuber 
+	*/
+	void OnSelectedSpecifyVTuber(UObject* OneVTuber);
 
+
+private:
+
+	void BindBtnCallback();
+
+	void InitVTuberInfo();
+
+	TArray<UVTuberInfoData*> AllVTuberInfos;
 };

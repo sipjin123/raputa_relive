@@ -19,6 +19,9 @@ public:
 	// Sets default values for this component's properties
 	ARelivePlayerState();
 
+	UFUNCTION(NetMulticast, Reliable)
+	void UpdateCharacterName(const FString& ID);
+
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
@@ -27,9 +30,6 @@ protected:
 
 public:
 
-	UFUNCTION()
-	void SetSelfCharacter(AProjReliveCharacter* Character);
-
 	UPROPERTY(BlueprintReadWrite, Replicated)
 	TArray<FCooldownData> CooldownData;
 
@@ -37,14 +37,11 @@ public:
 	int PlayerIndex;
 
 	UFUNCTION()
-	void OnRep_CharacterName(FString OldName);
-	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_CharacterName)
-	FString CharacterName;
+	void OnRep_VTuberID(FString OldID);
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_VTuberID)
+	FString VTuberID;
 
 
 private:
-
-	UPROPERTY()
-	TWeakObjectPtr<AProjReliveCharacter> SelfCharacter = nullptr;
 
 };

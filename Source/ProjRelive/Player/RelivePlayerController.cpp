@@ -7,6 +7,8 @@
 #include "World/PlayerSpawnPoint.h"
 #include "Subsystems/LoginSubSystem.h"
 
+#include "Configuration/ServerConfig.h"
+
 #include "Kismet/GameplayStatics.h"
 
 ARelivePlayerController::ARelivePlayerController(const FObjectInitializer& ObjectInitializer)
@@ -16,7 +18,7 @@ ARelivePlayerController::ARelivePlayerController(const FObjectInitializer& Objec
 
 }
 
-void ARelivePlayerController::Client_CanSpawnAvatar_Implementation(const int32 SpawnPosIndex)
+void ARelivePlayerController::Client_CanSpawnAvatar_Implementation()
 {
 	if (SpawnCharacterPair.IsEmpty())
 	{
@@ -35,12 +37,14 @@ void ARelivePlayerController::Client_CanSpawnAvatar_Implementation(const int32 S
 		return;
 	}
 
+	int32 SpawnPosIndex = LoginSubSystem->GetVTuberSpawnInfoById(LoginSubSystem->GetSelectedVTuberId()).SpawnIndex;
 	int32 AvatarIndex = LoginSubSystem->GetCurrentSelectPawnIndex();
 	AvatarIndex = AvatarIndex % SpawnCharacterPair.Num();
-	Server_ReqSpawnAvatar(SpawnPosIndex, AvatarIndex, LoginSubSystem->GetSelfName());
+
+	Server_ReqSpawnAvatar(SpawnPosIndex, AvatarIndex, LoginSubSystem->GetSelectedVTuberId());
 }
 
-void ARelivePlayerController::Server_ReqSpawnAvatar_Implementation(const int32 SpawnPosIndex, const int32 AvatarIndex, const FString& SelfName)
+void ARelivePlayerController::Server_ReqSpawnAvatar_Implementation(const int32 SpawnPosIndex, const int32 AvatarIndex, const FString& ID)
 {
 	AllSpawnPoints.Empty();
 	UGameplayStatics::GetAllActorsOfClass(GetWorld(), SpawnPointClass, AllSpawnPoints);
@@ -50,22 +54,44 @@ void ARelivePlayerController::Server_ReqSpawnAvatar_Implementation(const int32 S
 		return;
 	}
 
-	int32 SpawnPos = SpawnPosIndex % AllSpawnPoints.Num();
-	const FVector TempSpawnLocation = AllSpawnPoints[SpawnPos]->GetActorLocation();
-	const FRotator TempSpawnRotation = AllSpawnPoints[SpawnPos]->GetActorRotation();
+	APlayerSpawnPoint* SpawnPoint = nullptr;
+	for (auto OnePoint : AllSpawnPoints)
+	{
+		SpawnPoint = Cast<APlayerSpawnPoint>(OnePoint);
+		if (!SpawnPoint)
+		{
+			continue;
+		}
+
+		if (SpawnPoint->SpawnIndex == SpawnPosIndex)
+		{
+			break;
+		}
+		else
+		{
+			continue;
+		}
+	}
+
+	if (!SpawnPoint)
+	{
+		return;
+	}
+
+	const FVector TempSpawnLocation = SpawnPoint->GetActorLocation();
+	const FRotator TempSpawnRotation = SpawnPoint->GetActorRotation();
 
 	AProjReliveCharacter* ControlledCharacter = Cast<AProjReliveCharacter>(UGameplayStatics::BeginDeferredActorSpawnFromClass(
 		GetWorld(),
 		SpawnCharacterPair[AvatarIndex],
 		FTransform(TempSpawnRotation, TempSpawnLocation),
-		ESpawnActorCollisionHandlingMethod::AlwaysSpawn,
+		ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn,
 		this));
 
 	if (!ControlledCharacter)
 	{
 		return;
 	}
-
 
 	UGameplayStatics::FinishSpawningActor(ControlledCharacter, FTransform(TempSpawnRotation, TempSpawnLocation));
 	Possess(ControlledCharacter);
@@ -76,7 +102,8 @@ void ARelivePlayerController::Server_ReqSpawnAvatar_Implementation(const int32 S
 		return;
 	}
 
-	PS->CharacterName = SelfName;
+	PS->VTuberID = ID;
+	PS->UpdateCharacterName(ID);
 }
 
 void ARelivePlayerController::AcknowledgePossession(APawn* P)

@@ -23,13 +23,16 @@ public:
 	void UpdateSelectPawnIndex(const int32 Index);
 
 	UFUNCTION(BlueprintCallable)
-	int32 GetCurrentSelectPawnIndex() const { return SelectIndex; }
+	int32 GetCurrentSelectPawnIndex() const { return SelectedAvatarIndex; }
 
 	UFUNCTION(BlueprintCallable)
-	void UpdateSelfName(const FString& NewName);
+	void UpdateSelectedVTuberId(const FString& Id);
 
 	UFUNCTION(BlueprintCallable)
-	FString GetSelfName() const { return SelfName; }
+	FString GetSelectedVTuberId() const { return SelectedVTuberId; }
+
+	UFUNCTION(BlueprintCallable)
+	FVTuberSpawnPoint GetVTuberSpawnInfoById(const FString& Id) const;
 
 	UPROPERTY(BlueprintAssignable)
 	FOnSelectPawnIndexChange OnSelectPawnIndexChange;
@@ -37,9 +40,9 @@ public:
 private:
 
 	// current choosed pawn Index
-	int32 SelectIndex = 0;
+	int32 SelectedAvatarIndex = 0;
 
 	// self pawn Show Name setting
-	FString SelfName;
+	FString SelectedVTuberId;
 
 };

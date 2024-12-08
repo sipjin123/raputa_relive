@@ -3,7 +3,13 @@
 #include "ProjReliveGameMode.h"
 #include "ProjReliveCharacter.h"
 #include "Player/RelivePlayerController.h"
+#include "Subsystems/ReliveGameInstance.h"
+
+#include "WebSocketSubSystem.h"
+
 #include "UObject/ConstructorHelpers.h"
+#include "Kismet/GameplayStatics.h"
+
 
 AProjReliveGameMode::AProjReliveGameMode(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
@@ -36,7 +42,7 @@ void AProjReliveGameMode::PostLogin(APlayerController* NewPlayerController)
 
 	AllControllers.Add(PS);
 
-	PS->Client_CanSpawnAvatar(AllControllers.Num() - 1);
+	PS->Client_CanSpawnAvatar();
 }
 
 void AProjReliveGameMode::Logout(AController* Exiting)
@@ -50,4 +56,11 @@ void AProjReliveGameMode::Logout(AController* Exiting)
 	}
 
 	AllControllers.Remove(PS);
+}
+
+void AProjReliveGameMode::BindCallbackFromWebsocket()
+{
+
+
+
 }

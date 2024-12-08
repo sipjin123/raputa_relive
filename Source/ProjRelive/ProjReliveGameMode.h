@@ -38,6 +38,9 @@ protected:
 	}
 private:
 
+
+	void BindCallbackFromWebsocket();
+
 	UPROPERTY()
 	TArray<ARelivePlayerController*> AllControllers;
 

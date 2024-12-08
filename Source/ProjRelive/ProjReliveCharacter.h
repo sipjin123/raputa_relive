@@ -44,7 +44,7 @@ class AProjReliveCharacter : public ACharacter, public IAbilitySystemInterface
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	USceneComponent* CameraRoot;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "UI", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "UI", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UWidgetComponent> StatusBarComponent;
 	
 	/** MappingContext */
@@ -64,10 +64,10 @@ class AProjReliveCharacter : public ACharacter, public IAbilitySystemInterface
 	UInputAction* LookAction;
 
 public:
-	AProjReliveCharacter();
+	AProjReliveCharacter(const FObjectInitializer& ObjectInitializer);
 	
 	UFUNCTION()
-	void UpdateCharacterSelfUI();
+	void UpdateCharacterSelfUI(const FString& NewName);
 
 	UPROPERTY(BlueprintAssignable, BlueprintCallable, BlueprintReadWrite)
 	FOnLookAtComplete OnLookAtComplete;

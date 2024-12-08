@@ -3,6 +3,8 @@
 #include "Login/LoginController.h"
 #include "Login/ChoosePawn.h"
 
+#include "Configuration/ServerConfig.h"
+
 #include "Kismet/GameplayStatics.h"
 
 
@@ -36,13 +38,27 @@ void ULoginSubSystem::UpdateSelectPawnIndex(const int32 Index)
 
 	const int32 NewIndex = Index % ChoosePawn->SelectPawns.Num();
 
-	int32 OldIndex = SelectIndex;
-	SelectIndex = NewIndex;
+	int32 OldIndex = SelectedAvatarIndex;
+	SelectedAvatarIndex = NewIndex;
 
-	OnSelectPawnIndexChange.Broadcast(SelectIndex, OldIndex);
+	OnSelectPawnIndexChange.Broadcast(SelectedAvatarIndex, OldIndex);
 }
 
-void ULoginSubSystem::UpdateSelfName(const FString& NewName)
+void ULoginSubSystem::UpdateSelectedVTuberId(const FString& Id)
 {
-	SelfName = NewName;
+	SelectedVTuberId = Id;
+}
+
+FVTuberSpawnPoint ULoginSubSystem::GetVTuberSpawnInfoById(const FString& Id) const
+{
+	const TArray<FVTuberSpawnPoint>& AllVTubers = UServerConfig::Get().AllVTubers;
+	for (auto OneVTuber : AllVTubers)
+	{
+		if (OneVTuber.VTuberId == Id)
+		{
+			return OneVTuber;
+		}
+	}
+
+	return FVTuberSpawnPoint();
 }

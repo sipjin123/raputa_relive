@@ -3,11 +3,44 @@
 
 #include "RelivePlayerState.h"
 #include "ProjReliveCharacter.h"
+#include "Subsystems/LoginSubSystem.h"
+
+#include "Configuration/ServerConfig.h"
+
 
 #include "Net/UnrealNetwork.h"
+#include "Kismet/GameplayStatics.h"
 
 ARelivePlayerState::ARelivePlayerState()
 {
+}
+
+void ARelivePlayerState::UpdateCharacterName_Implementation(const FString& ID)
+{
+	APlayerController* PS = Cast<APlayerController>(GetOwner());
+	if (!PS)
+	{
+		return;
+	}
+	AProjReliveCharacter* OtherCharacter = Cast<AProjReliveCharacter>(PS->GetPawn());
+	if (!OtherCharacter)
+	{
+		return;
+	}
+
+	UGameInstance* GI = Cast<UGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+	if (!GI)
+	{
+		return;
+	}
+
+	ULoginSubSystem* LoginSubSystem = GI->GetSubsystem<ULoginSubSystem>();
+	if (!LoginSubSystem)
+	{
+		return;
+	}
+
+	OtherCharacter->UpdateCharacterSelfUI(LoginSubSystem->GetVTuberSpawnInfoById(ID).VTuberName);
 }
 
 void ARelivePlayerState::BeginPlay()
@@ -21,20 +54,34 @@ void ARelivePlayerState::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& O
 
 	DOREPLIFETIME(ARelivePlayerState, CooldownData);
 	DOREPLIFETIME(ARelivePlayerState, PlayerIndex);
-	DOREPLIFETIME(ARelivePlayerState, CharacterName);
+	DOREPLIFETIME(ARelivePlayerState, VTuberID);
 }
 
-void ARelivePlayerState::SetSelfCharacter(AProjReliveCharacter* Character)
+void ARelivePlayerState::OnRep_VTuberID(FString OldID)
 {
-	if (!Character)
+	APlayerController* PS = Cast<APlayerController>(GetOwner());
+	if (!PS)
 	{
 		return;
 	}
 
-	SelfCharacter = Character;
-}
+	AProjReliveCharacter* SelfCharacter = Cast<AProjReliveCharacter>(PS->GetPawn());
+	if (!SelfCharacter)
+	{
+		return;
+	}
 
-void ARelivePlayerState::OnRep_CharacterName(FString OldName)
-{
-	SelfCharacter->UpdateCharacterSelfUI();
+	UGameInstance* GI = Cast<UGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+	if (!GI)
+	{
+		return;
+	}
+
+	ULoginSubSystem* LoginSubSystem = GI->GetSubsystem<ULoginSubSystem>();
+	if (!LoginSubSystem)
+	{
+		return;
+	}
+
+	SelfCharacter->UpdateCharacterSelfUI(LoginSubSystem->GetVTuberSpawnInfoById(VTuberID).VTuberName);
 }
