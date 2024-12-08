@@ -23,7 +23,17 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	int PlayerScore;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FString VTuberId;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FString VTuberName;
+
 	FPlayerScoreData()
 	{
+		PlayerNumber = 0;
+		PlayerScore = 0;
+		VTuberId = "";
+		VTuberName = "";
 	}
 };

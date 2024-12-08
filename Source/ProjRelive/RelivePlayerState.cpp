@@ -40,6 +40,7 @@ void ARelivePlayerState::UpdateCharacterName_Implementation(const FString& ID)
 		return;
 	}
 
+	CachedCharName = LoginSubSystem->GetVTuberSpawnInfoById(ID).VTuberName;
 	OtherCharacter->UpdateCharacterSelfUI(LoginSubSystem->GetVTuberSpawnInfoById(ID).VTuberName);
 }
 
@@ -55,6 +56,7 @@ void ARelivePlayerState::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& O
 	DOREPLIFETIME(ARelivePlayerState, CooldownData);
 	DOREPLIFETIME(ARelivePlayerState, PlayerIndex);
 	DOREPLIFETIME(ARelivePlayerState, VTuberID);
+	//DOREPLIFETIME(ARelivePlayerState, CachedCharName);
 }
 
 void ARelivePlayerState::OnRep_VTuberID(FString OldID)
