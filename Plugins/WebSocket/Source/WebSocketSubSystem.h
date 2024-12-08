@@ -9,7 +9,6 @@ class UCustomWebSocket;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FOnBroadcastCheckoutItems, const bool, bResult, const FString&, PlayerID, const TArray<FString>, AllItems);
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnGotAllItemData, const TArray<FGotItemData>, GotItemData);
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnGetMessageFromBackend);
 
@@ -32,12 +31,6 @@ public:
 
 	UPROPERTY(BlueprintAssignable)
 	FOnBroadcastCheckoutItems OnBroadcastCheckoutItems;
-
-	UPROPERTY(BlueprintAssignable)
-	FOnGotAllItemData OnGotAllItemData;
-
-	UPROPERTY(BlueprintAssignable)
-	FOnGetMessageFromBackend OnGetMessageFromBackend;
 
 private:
 

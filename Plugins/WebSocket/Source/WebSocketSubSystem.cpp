@@ -46,6 +46,7 @@ void UWebSocketSubSystem::InitWebSocket()
 	WebSocket->OnConnected.AddDynamic(this, &UWebSocketSubSystem::OnConnected);
 	WebSocket->OnConnectionError.AddDynamic(this, &UWebSocketSubSystem::OnConnectionError);
 	WebSocket->OnClosed.AddDynamic(this, &UWebSocketSubSystem::OnClosed);
+	WebSocket->OnMessageSent.AddDynamic(this, &UWebSocketSubSystem::OnMessageSent);
 	WebSocket->OnMessageReceived.AddDynamic(this, &UWebSocketSubSystem::OnMessageReceived);
 
 	WebSocket->ConnectToServer();
@@ -82,8 +83,8 @@ void UWebSocketSubSystem::OnMessageReceived(const FString& Message)
 		return;
 	}
 
-	OnGetMessageFromBackend.Broadcast();
-	OnGotAllItemData.Broadcast(PlayerGotItemData.itemsData);
+	//OnGetMessageFromBackend.Broadcast();
+	//OnGotAllItemData.Broadcast(PlayerGotItemData.itemsData);
 
 
 	//FBroadcastCheckoutItems CheckoutItems;

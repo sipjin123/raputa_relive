@@ -3,6 +3,11 @@
 #include "ServerConfig.h"
 #include "WebSocket.h"
 
+const UServerConfig& UServerConfig::Get()
+{
+	return *GetDefault<UServerConfig>();
+}
+
 UServerConfig::UServerConfig(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
 {
