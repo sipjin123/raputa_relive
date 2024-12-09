@@ -56,7 +56,7 @@ void ARelivePlayerState::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& O
 	DOREPLIFETIME(ARelivePlayerState, CooldownData);
 	DOREPLIFETIME(ARelivePlayerState, PlayerIndex);
 	DOREPLIFETIME(ARelivePlayerState, VTuberID);
-	//DOREPLIFETIME(ARelivePlayerState, CachedCharName);
+	DOREPLIFETIME(ARelivePlayerState, CachedCharName);
 }
 
 void ARelivePlayerState::OnRep_VTuberID(FString OldID)

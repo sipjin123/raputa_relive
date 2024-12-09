@@ -6,6 +6,7 @@
 #include "Blueprint/UserWidget.h"
 #include "PlayerStatIndicator.generated.h"
 
+class UTextBlock;
 /**
  * 
  */
@@ -14,6 +15,14 @@ class PROJRELIVE_API UPlayerStatIndicator : public UUserWidget
 {
 	GENERATED_BODY()
 
+public:
+	UFUNCTION(BlueprintCallable)
+	void UpdateCharacterName(const FString& Name);
+
+	UPROPERTY(BlueprintReadWrite, Category = ">Tips", Meta = (BindWidget))
+	TObjectPtr<UTextBlock> CharacterName;
+
 protected:
 	virtual void NativeConstruct() override;
+
 };

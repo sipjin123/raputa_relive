@@ -20,6 +20,7 @@ class UInputAction;
 class UWidgetComponent;
 struct FInputActionValue;
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnCharVTuberNameAssigned, FString, NameAssigned);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnLookAtComplete);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnTeamChanged);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnHostDeclared);
@@ -175,6 +176,9 @@ public:
 
 	UPROPERTY(BlueprintAssignable, BlueprintCallable)
 	FOnTeamChanged OnTeamChanged;
+
+	UPROPERTY(BlueprintAssignable, BlueprintCallable)
+	FOnCharVTuberNameAssigned OnCharVTuberNameAssigned;
 
 	UPROPERTY(BlueprintAssignable, BlueprintCallable)
 	FOnHostDeclared OnHostDeclared;

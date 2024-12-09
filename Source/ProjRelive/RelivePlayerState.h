@@ -41,7 +41,7 @@ public:
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_VTuberID)
 	FString VTuberID;
 
-	UPROPERTY(BlueprintReadWrite)//, Replicated)
+	UPROPERTY(BlueprintReadWrite, Replicated)
 	FString CachedCharName;
 
 private:

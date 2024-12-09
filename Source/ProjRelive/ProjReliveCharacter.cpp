@@ -76,9 +76,12 @@ AProjReliveCharacter::AProjReliveCharacter(const FObjectInitializer& ObjectIniti
 	AbilitySystemComponent = CreateDefaultSubobject<UAbilitySystemComponent>(TEXT("AbilitySystemComponent"));
 	AbilitySystemComponent->SetIsReplicated(true);
 
+	// Moved Name to Stat Widget
+	/*
 	StatusBarComponent = CreateDefaultSubobject<UWidgetComponent>(TEXT("StatusBarComponent"));
 	StatusBarComponent->SetIsReplicated(true);
-	StatusBarComponent->SetupAttachment(RootComponent);
+	StatusBarComponent->SetupAttachment(RootComponent);*/
+	//StatusBarComponent = GetComponentByClass<UWidgetComponent>();
 }
 
 void AProjReliveCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
@@ -135,6 +138,9 @@ void AProjReliveCharacter::OnRep_PlayerState()
 
 void AProjReliveCharacter::UpdateCharacterSelfUI(const FString& NewName)
 {
+	OnCharVTuberNameAssigned.Broadcast(NewName);
+	// Moved Name to Stat Widget
+	/*
 	if (!IsValid(StatusBarComponent))
 	{
 		return;
@@ -146,7 +152,7 @@ void AProjReliveCharacter::UpdateCharacterSelfUI(const FString& NewName)
 		return;
 	}
 
-	StatusBar->UpdateCharacterName(NewName);
+	StatusBar->UpdateCharacterName(NewName);*/
 }
 
 void AProjReliveCharacter::OnRep_TeamId()
