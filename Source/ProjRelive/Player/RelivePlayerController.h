@@ -11,6 +11,7 @@
 
 class AProjReliveCharacter;
 class APlayerSpawnPoint;
+struct FDonatePlayerInfo;
 
 
 /**
@@ -25,6 +26,10 @@ class PROJRELIVE_API ARelivePlayerController : public APlayerController
 	
 public:
 	ARelivePlayerController(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
+
+	// Tell All client get Donation
+	UFUNCTION(Client, Reliable)
+	void Client_ReceiveDonation(const FDonatePlayerInfo& DonateInfo);
 
 	UFUNCTION(Client, Reliable)
 	void Client_CanSpawnAvatar();

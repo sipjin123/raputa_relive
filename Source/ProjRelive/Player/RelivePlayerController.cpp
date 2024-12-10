@@ -8,6 +8,7 @@
 #include "Subsystems/LoginSubSystem.h"
 
 #include "Configuration/ServerConfig.h"
+#include "MessageProtocol.h"
 
 #include "Kismet/GameplayStatics.h"
 
@@ -15,6 +16,13 @@ ARelivePlayerController::ARelivePlayerController(const FObjectInitializer& Objec
 	: Super(ObjectInitializer)
 {
 	PrimaryActorTick.bCanEverTick = true;
+
+}
+
+void ARelivePlayerController::Client_ReceiveDonation_Implementation(const FDonatePlayerInfo& DonateInfo)
+{
+	UE_LOG(LogProjRelive, Error, TEXT("%s(): %d Receive Donation: %s %s"), *FString(__FUNCTION__), __LINE__, *DonateInfo.DonatePlayerID, *DonateInfo.DonatePlayerName);
+
 
 }
 

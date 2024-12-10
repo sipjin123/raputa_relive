@@ -81,7 +81,6 @@ void AChoosePawn::BeginPlay()
 {	
 	Super::BeginPlay();
 
-	OnSelectPawnChange(0, 0);
 	BindCallBack();
 }
 
@@ -106,4 +105,8 @@ void AChoosePawn::BindCallBack()
 	}
 
 	LoginSubSystem->OnSelectPawnIndexChange.AddDynamic(this, &ThisClass::OnSelectPawnChange);
+
+	LoginSubSystem->UpdateSelectPawnIndex(0);
+	LoginSubSystem->UpdateSelectedVTuberId("1");
+
 }

@@ -1,11 +1,14 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "ProjReliveGameMode.h"
+#include "ProjRelive.h"
 #include "ProjReliveCharacter.h"
 #include "Player/RelivePlayerController.h"
 #include "Subsystems/ReliveGameInstance.h"
 
 #include "WebSocketSubSystem.h"
+#include "MessageProtocol.h"
+#include "Configuration/ServerConfig.h"
 
 #include "UObject/ConstructorHelpers.h"
 #include "Kismet/GameplayStatics.h"
@@ -21,6 +24,7 @@ void AProjReliveGameMode::BeginPlay()
 {
 	Super::BeginPlay();
 
+	InitWebSocket();
 }
 
 void AProjReliveGameMode::EndPlay(const EEndPlayReason::Type EndPlayReason)
@@ -58,9 +62,78 @@ void AProjReliveGameMode::Logout(AController* Exiting)
 	AllControllers.Remove(PS);
 }
 
-void AProjReliveGameMode::BindCallbackFromWebsocket()
+void AProjReliveGameMode::InitWebSocket()
+{
+	UGameInstance* GI = Cast<UGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+	if (!GI)
+	{
+		UE_LOG(LogProjRelive, Error, TEXT("%s(): %d "), *FString(__FUNCTION__), __LINE__);
+		return;
+	}
+
+	UWebSocketSubSystem* WebsocketSubsystem = GI->GetSubsystem<UWebSocketSubSystem>();
+	if (!WebsocketSubsystem)
+	{
+		UE_LOG(LogProjRelive, Error, TEXT("%s(): %d "), *FString(__FUNCTION__), __LINE__);
+		return;
+	}
+
+	if (WebsocketSubsystem->IsConnected())
+	{
+		UE_LOG(LogProjRelive, Error, TEXT("%s(): %d "), *FString(__FUNCTION__), __LINE__);
+		return;
+	}
+
+	WebsocketSubsystem->InitWebSocket();
+	WebsocketSubsystem->OnRequestDonateProduct.AddDynamic(this, &ThisClass::OnRequestDonate);
+}
+
+void AProjReliveGameMode::BroadcastAllDonationInfo(const FDonatePlayerInfo& DonateInfo)
+{
+	for (auto OnePC : AllControllers)
+	{
+		OnePC->Client_ReceiveDonation(DonateInfo);
+	}
+}
+
+int32 AProjReliveGameMode::DealWithDonation(const FDonatePlayerInfo& DonateInfo)
+{
+	BroadcastAllDonationInfo(DonateInfo);
+	TMap<int32, int32> DonationItems;
+	int32 ErrorCode = 0;
+	if (!UServerConfig::GetDonationItems(DonateInfo.ProdcutID, DonationItems))
+	{
+		ErrorCode = 2;
+		return ErrorCode;
+	}
+
+	SpawnDonationItems(DonationItems, ErrorCode);
+
+	return ErrorCode;
+}
+
+void AProjReliveGameMode::OnRequestDonate(const FDonatePlayerInfo& DonateInfo)
 {
 
+	// do something game play notify 
+	int32 ErrorCode = DealWithDonation(DonateInfo);
 
+	// notify server if success
+	UGameInstance* GI = Cast<UGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+	if (!GI)
+	{
+		UE_LOG(LogProjRelive, Error, TEXT("%s(): %d sVTuberId: %s, sProdcutID: %s , DonatePlayerName: %s"), *FString(__FUNCTION__), __LINE__, *DonateInfo.VTuberId, *DonateInfo.ProdcutID, *DonateInfo.DonatePlayerName);
+		return;
+	}
 
+	UWebSocketSubSystem* WebsocketSubsystem = GI->GetSubsystem<UWebSocketSubSystem>();
+	if (!WebsocketSubsystem)
+	{
+		UE_LOG(LogProjRelive, Error, TEXT("%s(): %d sVTuberId: %s, sProdcutID: %s , DonatePlayerName: %s"), *FString(__FUNCTION__), __LINE__, *DonateInfo.VTuberId, *DonateInfo.ProdcutID, *DonateInfo.DonatePlayerName);
+		return;
+	}
+	FResponseDonateProduct Response;
+	Response.sDonatePlayerID = DonateInfo.DonatePlayerID;
+	Response.iResult = ErrorCode;
+	WebsocketSubsystem->SendDonateResutToServer(Response);
 }

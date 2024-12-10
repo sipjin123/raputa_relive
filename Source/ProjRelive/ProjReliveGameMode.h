@@ -8,6 +8,7 @@
 
 
 class ARelivePlayerController;
+struct FDonatePlayerInfo;
 
 UCLASS(minimalapi)
 class AProjReliveGameMode : public AGameModeBase
@@ -16,6 +17,9 @@ class AProjReliveGameMode : public AGameModeBase
 
 public:
 	AProjReliveGameMode(const FObjectInitializer& ObjectInitializer);
+
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
+	void SpawnDonationItems(const TMap<int32, int32>& SpawnItemInfo, int32& ErrorCode);
 
 
 protected:
@@ -38,8 +42,15 @@ protected:
 	}
 private:
 
+	void InitWebSocket();
 
-	void BindCallbackFromWebsocket();
+	void BroadcastAllDonationInfo(const FDonatePlayerInfo& DonateInfo);
+
+	int32 DealWithDonation(const FDonatePlayerInfo& DonateInfo);
+
+
+	UFUNCTION()
+	void OnRequestDonate(const FDonatePlayerInfo& DonateInfo);
 
 	UPROPERTY()
 	TArray<ARelivePlayerController*> AllControllers;
