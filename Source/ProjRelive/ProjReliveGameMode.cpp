@@ -3,6 +3,7 @@
 #include "ProjReliveGameMode.h"
 #include "ProjRelive.h"
 #include "ProjReliveCharacter.h"
+#include "RelivePlayerState.h"
 #include "Player/RelivePlayerController.h"
 #include "Subsystems/ReliveGameInstance.h"
 
@@ -18,6 +19,23 @@ AProjReliveGameMode::AProjReliveGameMode(const FObjectInitializer& ObjectInitial
 	: Super(ObjectInitializer)
 {
 	PrimaryActorTick.bCanEverTick = false;
+}
+
+AProjReliveCharacter* AProjReliveGameMode::FindAvatartByVTuberId(const FString& VTuberId) const
+{
+	AProjReliveCharacter* TargetAvatar = nullptr;
+
+	for (auto OnePC : AllControllers)
+	{
+		ARelivePlayerState* PS = OnePC->GetPlayerState<ARelivePlayerState>();
+		if (PS && PS->VTuberID == VTuberId)
+		{
+			TargetAvatar = Cast<AProjReliveCharacter>(PS->GetPawn());
+			return TargetAvatar;
+		}
+	}
+
+	return TargetAvatar;
 }
 
 void AProjReliveGameMode::BeginPlay()
@@ -107,7 +125,7 @@ int32 AProjReliveGameMode::DealWithDonation(const FDonatePlayerInfo& DonateInfo)
 		return ErrorCode;
 	}
 
-	SpawnDonationItems(DonationItems, ErrorCode);
+	SpawnDonationItems(DonateInfo.ProdcutID, DonationItems, DonateInfo.VTuberId, ErrorCode);
 
 	return ErrorCode;
 }
@@ -117,6 +135,10 @@ void AProjReliveGameMode::OnRequestDonate(const FDonatePlayerInfo& DonateInfo)
 
 	// do something game play notify 
 	int32 ErrorCode = DealWithDonation(DonateInfo);
+	if (ErrorCode != 0)
+	{
+		UE_LOG(LogProjRelive, Error, TEXT("%s(): %d sVTuberId: %s, sProdcutID: %s , DonatePlayerName: %s, ErrorCode: %d"), *FString(__FUNCTION__), __LINE__, *DonateInfo.VTuberId, *DonateInfo.ProdcutID, *DonateInfo.DonatePlayerName, ErrorCode);
+	}
 
 	// notify server if success
 	UGameInstance* GI = Cast<UGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
@@ -135,5 +157,6 @@ void AProjReliveGameMode::OnRequestDonate(const FDonatePlayerInfo& DonateInfo)
 	FResponseDonateProduct Response;
 	Response.sDonatePlayerID = DonateInfo.DonatePlayerID;
 	Response.iResult = ErrorCode;
+	Response.sBagId = DonateInfo.BagId;
 	WebsocketSubsystem->SendDonateResutToServer(Response);
 }

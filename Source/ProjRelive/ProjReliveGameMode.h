@@ -8,6 +8,7 @@
 
 
 class ARelivePlayerController;
+class AProjReliveCharacter;
 struct FDonatePlayerInfo;
 
 UCLASS(minimalapi)
@@ -18,8 +19,16 @@ class AProjReliveGameMode : public AGameModeBase
 public:
 	AProjReliveGameMode(const FObjectInitializer& ObjectInitializer);
 
+	/*
+	* the key of SpawnItemInfo map is item id, and the value of SpawnItemInfo map is item
+	* ErrorCode, is return code, if success is 0, others are errors
+	*/
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
-	void SpawnDonationItems(const TMap<int32, int32>& SpawnItemInfo, int32& ErrorCode);
+	void SpawnDonationItems(const FString& ProductID, const TMap<int32, int32>& SpawnItemInfo, const FString& VTuberId, int32& ErrorCode);
+
+
+	UFUNCTION(BlueprintCallable)
+	AProjReliveCharacter* FindAvatartByVTuberId(const FString& VTuberId) const;
 
 
 protected:
@@ -47,7 +56,6 @@ private:
 	void BroadcastAllDonationInfo(const FDonatePlayerInfo& DonateInfo);
 
 	int32 DealWithDonation(const FDonatePlayerInfo& DonateInfo);
-
 
 	UFUNCTION()
 	void OnRequestDonate(const FDonatePlayerInfo& DonateInfo);
