@@ -21,8 +21,6 @@ UInventoryComponent::UInventoryComponent()
 // Called when the game starts
 void UInventoryComponent::BeginPlay()
 {
-	Super::BeginPlay();
-
 	// ...
 	if(IsValid(InventoryWidget))
 	{
@@ -31,8 +29,10 @@ void UInventoryComponent::BeginPlay()
 	if(IsValid(PlayerHUDWidget))
 	{
 		PlayerHUD = CreateWidget<UPlayerHUD>(GetWorld(), PlayerHUDWidget);
-		PlayerHUD->AddToViewport();
+		//PlayerHUD->AddToViewport();
 	}
+
+	Super::BeginPlay();
 
 	/* Assign Empty Entries, Moved to Blueprint for Actor Assignments
 	for (EPowerupType myPowerupType = EPowerupType::begin; myPowerupType < EPowerupType::end;
