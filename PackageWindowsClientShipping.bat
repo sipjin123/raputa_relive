@@ -1,0 +1,4 @@
+
+cmd.exe /c ""O:\Projects\UnrealEngineGIT 5.4\Engine\Build\BatchFiles\RunUAT.bat"  -ScriptsForProject="O:\Projects\Raputa_Relive_Proj\Burlin_bontakun_mainstream_7406\RaputaSoloGIT\ProjRelive.uproject" Turnkey -command=VerifySdk -platform=Win64 -UpdateIfNeeded -EditorIO -EditorIOPort=5214  -project="O:\Projects\Raputa_Relive_Proj\Burlin_bontakun_mainstream_7406\RaputaSoloGIT\ProjRelive.uproject" BuildCookRun -nop4 -utf8output -nocompileeditor -skipbuildeditor -cook  -project="O:\Projects\Raputa_Relive_Proj\Burlin_bontakun_mainstream_7406\RaputaSoloGIT\ProjRelive.uproject" -target=ProjReliveClient  -unrealexe="O:\Projects\UnrealEngineGIT 5.4\Engine\Binaries\Win64\UnrealEditor-Cmd.exe" -platform=Win64 -stage -archive -package -build -clean -pak -iostore -compressed -prereqs -archivedirectory="F:/package/raputa/Lastest/Client" -client -clientconfig=Shipping -nodebuginfo" -nocompile -nocompileuat
+
+pause
