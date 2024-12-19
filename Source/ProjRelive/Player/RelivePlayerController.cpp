@@ -22,8 +22,7 @@ ARelivePlayerController::ARelivePlayerController(const FObjectInitializer& Objec
 void ARelivePlayerController::Client_ReceiveDonation_Implementation(const FDonatePlayerInfo& DonateInfo)
 {
 	UE_LOG(LogProjRelive, Error, TEXT("%s(): %d Receive Donation: %s %s"), *FString(__FUNCTION__), __LINE__, *DonateInfo.DonatePlayerID, *DonateInfo.DonatePlayerName);
-
-
+	OnDonatedPlayer.Broadcast(DonateInfo.DonatePlayerName, DonateInfo.VTuberId);
 }
 
 void ARelivePlayerController::Client_CanSpawnAvatar_Implementation()

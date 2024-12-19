@@ -17,6 +17,7 @@ struct FDonatePlayerInfo;
 /**
  * 
  */
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FNewOnDonatedPlayer, FString, DonatorUser, FString, ItemReceived);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnPossessAcknowledge);
 
 UCLASS()
@@ -60,6 +61,9 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, Category = "Stats")
 	bool IsMouseOnHold;
+
+	UPROPERTY(BlueprintAssignable, BlueprintCallable)
+	FNewOnDonatedPlayer OnDonatedPlayer;
 
 protected:
 	virtual void AcknowledgePossession(APawn* P) override;
