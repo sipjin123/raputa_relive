@@ -11,6 +11,7 @@ class UEditableTextBox;
 class UButtonText;
 
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnAvatarClicked, FString, VTuberId);
 UCLASS(Blueprintable)
 class UVTuberInfoData : public UObject
 {
@@ -45,6 +46,10 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, Category = ">Widgets", Meta = (BindWidget))
 	TObjectPtr<UListView> VTuberInfoList;
+	UPROPERTY(EditDefaultsOnly, Category = ">Widgets", Meta = (BindWidget))
+	TObjectPtr<UListView> VTuberInfoList2;
+	UPROPERTY(EditDefaultsOnly, Category = ">Widgets", Meta = (BindWidget))
+	TObjectPtr<UListView> VTuberInfoList3;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Meta = (BindWidget))
 	TObjectPtr<UButtonText> StartGameBtn;	    // 开始游戏
@@ -68,5 +73,10 @@ private:
 
 	void InitVTuberInfo();
 
+	UPROPERTY(BlueprintAssignable, BlueprintCallable)
+	FOnAvatarClicked OnAvatarClicked;
+
 	TArray<UVTuberInfoData*> AllVTuberInfos;
+	TArray<UVTuberInfoData*> AllVTuberInfos2;
+	TArray<UVTuberInfoData*> AllVTuberInfos3;
 };

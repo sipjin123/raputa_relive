@@ -8,6 +8,7 @@
 class UTextBlock;
 class UBorder;
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnDataAssigned, FString, VTuberId);
 UCLASS(Abstract)
 class UVTuberListEntry : public UUserWidget, public IUserObjectListEntry
 {
@@ -31,4 +32,6 @@ protected:
 	UPROPERTY(EditDefaultsOnly)
 	FLinearColor UnSelectedColor;
 
+	UPROPERTY(BlueprintAssignable, BlueprintCallable)
+	FOnDataAssigned OnDataAssigned;
 };

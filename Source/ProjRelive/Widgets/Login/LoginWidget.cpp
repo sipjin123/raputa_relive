@@ -58,7 +58,6 @@ void ULoginWidget::OnSelectAvatarBtnClicked()
 
 	const int32 NewSelectedAvatarIndex = LoginSubSystem->GetCurrentSelectPawnIndex() + 1;
 	LoginSubSystem->UpdateSelectPawnIndex(NewSelectedAvatarIndex);
-
 	ALoginController* PC = Cast<ALoginController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
 	if (!PC)
 	{
@@ -99,22 +98,24 @@ void ULoginWidget::OnSelectedSpecifyVTuber(UObject* OneVTuber)
 	}
 
 	UVTuberInfoData* SelectedVT = Cast<UVTuberInfoData>(OneVTuber);
-	if (!SelectedVT || !VTuberInfoList)
+	if (!SelectedVT || !VTuberInfoList || !VTuberInfoList2 || !VTuberInfoList3)
 	{
 		return;
 	}
 
 	LoginSubSystem->UpdateSelectedVTuberId(SelectedVT->VTuberId);
 
+	OnAvatarClicked.Broadcast(SelectedVT->VTuberId);
 	InitVTuberInfo();
-
 }
 
 void ULoginWidget::BindBtnCallback()
 {
-	check(VTuberInfoList && StartGameBtn && SelectAvatarBtn);
+	check(VTuberInfoList && VTuberInfoList2 && VTuberInfoList3 && StartGameBtn && SelectAvatarBtn);
 
 	VTuberInfoList->OnItemSelectionChanged().AddUObject(this, &ULoginWidget::OnSelectedSpecifyVTuber);
+	VTuberInfoList2->OnItemSelectionChanged().AddUObject(this, &ULoginWidget::OnSelectedSpecifyVTuber);
+	VTuberInfoList3->OnItemSelectionChanged().AddUObject(this, &ULoginWidget::OnSelectedSpecifyVTuber);
 	StartGameBtn->OnClicked.AddDynamic(this, &ThisClass::OnStartGameBtnClicked);
 	SelectAvatarBtn->OnClicked.AddDynamic(this, &ThisClass::OnSelectAvatarBtnClicked);
 }
@@ -122,17 +123,37 @@ void ULoginWidget::BindBtnCallback()
 void ULoginWidget::InitVTuberInfo()
 {
 	AllVTuberInfos.Empty();
+	AllVTuberInfos2.Empty();
+	AllVTuberInfos3.Empty();
+
+	int i = 0;
 	for (auto OneVTuber : UServerConfig::Get().AllVTubers)
 	{
 		UVTuberInfoData* TempVTuberData = NewObject<UVTuberInfoData>();
 		TempVTuberData->VTuberId = OneVTuber.VTuberId;
 		TempVTuberData->VTuberName = OneVTuber.VTuberName;
 		TempVTuberData->SpawnIndex = OneVTuber.SpawnIndex;
-
-		AllVTuberInfos.Add(TempVTuberData);
+		if (i < 4) {
+			AllVTuberInfos.Add(TempVTuberData);
+		}
+		else if (i < 8) {
+			AllVTuberInfos2.Add(TempVTuberData);
+		}
+		else {
+			AllVTuberInfos3.Add(TempVTuberData);
+		}
+		i++;
 	}
 
 	VTuberInfoList->ClearListItems();
 	VTuberInfoList->SetListItems(AllVTuberInfos);
 	VTuberInfoList->RegenerateAllEntries();
+
+	VTuberInfoList2->ClearListItems();
+	VTuberInfoList2->SetListItems(AllVTuberInfos2);
+	VTuberInfoList2->RegenerateAllEntries();
+
+	VTuberInfoList3->ClearListItems();
+	VTuberInfoList3->SetListItems(AllVTuberInfos3);
+	VTuberInfoList3->RegenerateAllEntries();
 }

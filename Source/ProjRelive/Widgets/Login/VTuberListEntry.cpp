@@ -37,7 +37,7 @@ void UVTuberListEntry::NativeOnListItemObjectSet(UObject* ListItemObject)
 	}
 
 	VTuberName->SetText(FText::FromString(pInfo->VTuberName));
-
+	OnDataAssigned.Broadcast(pInfo->VTuberId);
 	if (pInfo->VTuberId == LoginSubSystem->GetSelectedVTuberId())
 	{
 		BackGroundColor->SetBrushColor(SelectedColor);
