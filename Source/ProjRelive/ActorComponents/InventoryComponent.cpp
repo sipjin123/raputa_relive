@@ -82,7 +82,7 @@ void UInventoryComponent::OpenInventory()
 
 void UInventoryComponent::AddItemToInventory(FItemData ItemData, int QuantityOverride)
 {
-	UE_LOG(LogTemp, Log, TEXT("Adding Item To Inventory C++: {%d}"), ItemData.Id);
+	//UE_LOG(LogTemp, Log, TEXT("Adding Item To Inventory C++: {%d}"), ItemData.Id);
 
 	// Find existing Inventory if Any
 	auto ExistingItemIndex = UserItems.IndexOfByPredicate([ItemData](const FItemData& InItem)
