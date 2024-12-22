@@ -24,6 +24,20 @@ struct FVTuberSpawnPoint
 
 };
 
+// 根据 product ID 配置，相关的游戏内的物品ID
+USTRUCT(BlueprintType)
+struct FProductIdItems
+{
+	GENERATED_BODY()
+
+	// key is product ID
+	UPROPERTY(Config, EditAnywhere, BlueprintReadOnly)
+	FString ProdcutID;
+
+	// key: 游戏内 ITEM id，  value：该 ITEM的数量
+	UPROPERTY(Config, EditAnywhere, BlueprintReadOnly)
+	TMap<int32, int32> AllItemsInfo;
+};
 
 
 /**
@@ -49,6 +63,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Server Config")
 	static int32 GetDedicatedServerPort();
 
+	UFUNCTION(BlueprintCallable, Category = "Server Config")
+	static bool GetDonationItems(const FString& ProductID, TMap<int32, int32>& SpawnItems);
+
 	// websocket URL configured in Editor
 	UPROPERTY(config, EditAnywhere, BlueprintReadOnly, Category = "Server Config")
 	FString WebsocketURL;
@@ -64,6 +81,9 @@ public:
 	// key: VTbuer ID
 	UPROPERTY(config, EditAnywhere, BlueprintReadOnly, Category = "Server Config")
 	TArray<FVTuberSpawnPoint> AllVTubers;
+
+	UPROPERTY(config, EditAnywhere, BlueprintReadOnly, Category = "Server Config")
+	TArray<FProductIdItems> AllProductItems;
 
 private:
 

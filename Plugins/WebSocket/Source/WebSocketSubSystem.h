@@ -6,11 +6,9 @@
 #include "WebSocketSubSystem.generated.h"
 
 class UCustomWebSocket;
+struct FDonatePlayerInfo;
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FOnBroadcastCheckoutItems, const bool, bResult, const FString&, PlayerID, const TArray<FString>, AllItems);
-
-
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnGetMessageFromBackend);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnRequestDonateProduct, const FDonatePlayerInfo&, DonatePlayerInfo);
 
 
 UCLASS(BlueprintType)
@@ -23,14 +21,17 @@ public:
 
 	virtual void Deinitialize() override;
 
-	UFUNCTION(BlueprintCallable, Category = "StWebSocket | WebSocketSubSystem")
+	UFUNCTION(BlueprintCallable, Category = "WebSocketSubSystem")
+	bool IsConnected();
+
+	UFUNCTION(BlueprintCallable, Category = "WebSocketSubSystem")
 	void InitWebSocket();
 
-	UFUNCTION(BlueprintCallable, Category = "StWebSocket | WebSocketSubSystem")
-	void InitWebSocketEx(UGameInstance * ins);
+	UFUNCTION(BlueprintCallable)
+	void SendDonateResutToServer(const FResponseDonateProduct& Result);
 
 	UPROPERTY(BlueprintAssignable)
-	FOnBroadcastCheckoutItems OnBroadcastCheckoutItems;
+	FOnRequestDonateProduct OnRequestDonateProduct;
 
 private:
 

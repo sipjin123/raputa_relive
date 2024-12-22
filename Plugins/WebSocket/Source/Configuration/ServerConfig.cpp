@@ -61,6 +61,22 @@ int32 UServerConfig::GetDedicatedServerPort()
 	return RealDedicatedServerPort;
 }
 
+bool UServerConfig::GetDonationItems(const FString& ProductID, TMap<int32, int32>& SpawnItems)
+{
+	const UServerConfig* Settings = GetDefault<UServerConfig>();
+	const TArray<FProductIdItems>& AllProductItems = Settings->AllProductItems;
+	for (auto OneProduct : AllProductItems)
+	{
+		if (OneProduct.ProdcutID == ProductID)
+		{
+			SpawnItems = OneProduct.AllItemsInfo;
+			return true;
+		}
+	}
+
+	return false;
+}
+
 bool UServerConfig::GetConfigFile(FConfigFile& ConfigFile)
 {
 	FString ConfigPath = TEXT("DefaultServerConfig");
