@@ -24,7 +24,7 @@ public:
 	* ErrorCode, is return code, if success is 0, others are errors
 	*/
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
-	void SpawnDonationItems(const FString& ProductID, const TMap<int32, int32>& SpawnItemInfo, const FString& VTuberId, int32& ErrorCode);
+	void SpawnDonationItems(const FDonatePlayerInfo& DonateInfo, const TMap<int32, int32>& SpawnItemInfo, int32& ErrorCode);
 
 
 	UFUNCTION(BlueprintCallable)

@@ -125,14 +125,13 @@ int32 AProjReliveGameMode::DealWithDonation(const FDonatePlayerInfo& DonateInfo)
 		return ErrorCode;
 	}
 
-	SpawnDonationItems(DonateInfo.ProdcutID, DonationItems, DonateInfo.VTuberId, ErrorCode);
+	SpawnDonationItems(DonateInfo, DonationItems, ErrorCode);
 
 	return ErrorCode;
 }
 
 void AProjReliveGameMode::OnRequestDonate(const FDonatePlayerInfo& DonateInfo)
 {
-
 	// do something game play notify 
 	int32 ErrorCode = DealWithDonation(DonateInfo);
 	if (ErrorCode != 0)
