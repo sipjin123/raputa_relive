@@ -80,6 +80,14 @@ void AProjReliveGameMode::Logout(AController* Exiting)
 	AllControllers.Remove(PS);
 }
 
+FDonatePlayerInfo AProjReliveGameMode::GetTestDonatePlayerInfo(FString vtuberId, float DonationValue)
+{
+	FDonatePlayerInfo NewFDonatePlayerInfo;
+	NewFDonatePlayerInfo.VTuberId = vtuberId;
+	NewFDonatePlayerInfo.DonateMoney = DonationValue;
+	return NewFDonatePlayerInfo;
+}
+
 void AProjReliveGameMode::InitWebSocket()
 {
 	UGameInstance* GI = Cast<UGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));

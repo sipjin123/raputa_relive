@@ -49,6 +49,9 @@ protected:
 	bool IsThisListenServer() {
 		return GetWorld()->GetNetMode() == NM_ListenServer;
 	}
+
+	UFUNCTION(BlueprintCallable, BlueprintPure)
+	FDonatePlayerInfo GetTestDonatePlayerInfo(FString vtuberId, float DonationValue);
 private:
 
 	void InitWebSocket();
