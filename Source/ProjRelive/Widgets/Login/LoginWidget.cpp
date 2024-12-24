@@ -106,7 +106,7 @@ void ULoginWidget::OnSelectedSpecifyVTuber(UObject* OneVTuber)
 	LoginSubSystem->UpdateSelectedVTuberId(SelectedVT->VTuberId);
 
 	OnAvatarClicked.Broadcast(SelectedVT->VTuberId);
-	InitVTuberInfo();
+	//InitVTuberInfo();
 }
 
 void ULoginWidget::BindBtnCallback()
