@@ -160,7 +160,7 @@ void UInventoryComponent::ConsumeItem(int ItemId, int ConsumeAmount)
 		UserItems[ExistingItemIndex].Quantity --;
 		if (UserItems[ExistingItemIndex].Quantity <= 0)
 		{
-			UE_LOG(LogTemp, Log, TEXT("Depleted a Consumable Item From Inventory C++: {%d}"), ItemId);
+			//UE_LOG(LogTemp, Log, TEXT("Depleted a Consumable Item From Inventory C++: {%d}"), ItemId);
 			// Remove Inventory Item if fully consumed
 			UserItems.RemoveAt(ExistingItemIndex);
 
@@ -182,17 +182,17 @@ void UInventoryComponent::ConsumeItem(int ItemId, int ConsumeAmount)
 			}
 		}
 		else {
-			UE_LOG(LogTemp, Log, TEXT("Consumed a Stack of Item From Inventory C++: {%d} Remain:{%d}"), ItemId, UserItems[ExistingItemIndex].Quantity);
+			//UE_LOG(LogTemp, Log, TEXT("Consumed a Stack of Item From Inventory C++: {%d} Remain:{%d}"), ItemId, UserItems[ExistingItemIndex].Quantity);
 		}
 		SyncAbilityPanelItems();
 	}
 	else
 	{
-		UE_LOG(LogTemp, Log, TEXT("Failed to Consume--> ItemId: {%d} ExistingItem:{%d} UserItemCount:{%d}"), ItemId, ExistingItemIndex, UserItems.Num());
+		//UE_LOG(LogTemp, Log, TEXT("Failed to Consume--> ItemId: {%d} ExistingItem:{%d} UserItemCount:{%d}"), ItemId, ExistingItemIndex, UserItems.Num());
 		for (int i = 0; i < UserItems.Num(); i++) {
 
 			FString EnumAsString = UEnum::GetDisplayValueAsText(UserItems[i].PowerupType).ToString();
-			UE_LOG(LogTemp, Log, TEXT("Failed to Consume--> ItemId: {%d}-{%s} "), UserItems[i].Id, *EnumAsString);
+			//UE_LOG(LogTemp, Log, TEXT("Failed to Consume--> ItemId: {%d}-{%s} "), UserItems[i].Id, *EnumAsString);
 		}
 
 	}
